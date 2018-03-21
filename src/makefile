@@ -6,7 +6,7 @@
 #
 
 CC = clang++
-CFLAGS = -I.
+CFLAGS = -I./layer2 -I./layer23 -I./layer3 -I./layer4 -I./layer5
 OBJDIR = ../obj
 SRCDIR = .
 SHIPDIR = ../ship
