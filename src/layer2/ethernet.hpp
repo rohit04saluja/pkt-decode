@@ -6,6 +6,23 @@
  */
 
 #include <iostream>
+#include <cstdint>
 
 using namespace std;
 
+#define MacAddrLen      6
+
+/*
+ * @brief
+ * Class for mac address of packet
+ */
+class MacAddr {
+    private:
+    uint8_t addr[MacAddrLen];
+
+    public:
+    MacAddr (void);
+    MacAddr (uint8_t const * pkt);
+    uint8_t const * getAddr (void) const;
+    friend ostream & operator<< (ostream &output, MacAddr const &addr);
+};
