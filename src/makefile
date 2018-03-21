@@ -11,7 +11,7 @@ OBJDIR = ../obj
 SRCDIR = .
 SHIPDIR = ../ship
 
-_OBJ = main.o
+_OBJ = main.o layer2/ethernet.o
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
 
 $(OBJDIR)/%.o: %.cpp
