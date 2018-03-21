@@ -6,6 +6,9 @@
 #
 
 CC = clang++
+MKDIR = mkdir
+RM = rm
+
 CFLAGS = -I.
 OBJDIR = ../obj
 SRCDIR = .
@@ -15,15 +18,15 @@ _OBJ = main.o
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
 
 $(OBJDIR)/%.o: %.cpp
-	mkdir -p $(OBJDIR)
+	$(MKDIR) -p $(OBJDIR)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 pkt-decode: $(OBJ)
-	mkdir -p $(SHIPDIR)
+	$(MKDIR) -p $(SHIPDIR)
 	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS)
 
 clean:
-	rm -rf $(OBJDIR) $(SHIPDIR)
+	$(RM) -rf $(OBJDIR) $(SHIPDIR)
 
 .PHONY: pkt-decode clean
 
