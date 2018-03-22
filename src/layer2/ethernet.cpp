@@ -63,6 +63,47 @@ ostream & operator<< (ostream &output, MacAddr const &addr) {
     return output;
 }
 
+/*
+ * @brief
+ * operator== overloaded to tell if
+ * two addresses are the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if all the bytes are equal
+ */
+bool const operator== (MacAddr const &lhs, MacAddr const &rhs) {
+    bool ret = true;
+    for (int i=0; i<MacAddrLen; i++) {
+        if (lhs.addr[i] != rhs.addr[i]) {
+            ret = false;
+            break;
+        }
+    }
+    return ret;
+}
+
+/*
+ * @brief
+ * operator!= overloaded to tell if 
+ * two address are not the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if operator== is false
+ */
+bool const operator!= (MacAddr const &lhs, MacAddr const &rhs) {
+    return !(lhs == rhs);
+}
+
 
 /*
  * @brief
@@ -112,6 +153,39 @@ ostream & operator<< (ostream &output, EtherType const &et) {
     output << "0x" << setfill('0') << setw(4) << hex << et.et;
     return output;
 }
+
+/*
+ * @brief
+ * operator== overloaded to tell if ethertypes are equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if both values are equal
+ */
+bool const operator== (EtherType const &lhs, EtherType const &rhs) {
+    return (lhs.et == rhs.et);
+}
+
+/*
+ * @brief
+ * operator!= overloaded to tell if ethertypes are not equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if both values are not equal
+ */
+bool const operator!= (EtherType const &lhs, EtherType const &rhs) {
+    return (lhs.et != rhs.et);
+}
+
 /*
  * @brief
  * Default constructor for class
