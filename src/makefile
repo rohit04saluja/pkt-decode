@@ -8,22 +8,45 @@
 CC = clang++
 MKDIR = mkdir
 RM = rm
+ECHO = echo
 
-CFLAGS = -I.
+IPATHS = layer2 layer2/unit-tests/
+LPATHS = /usr/local/lib
+
+CFLAGS = $(addprefix -I, $(IPATHS))
+CFLAGS += $(addprefix -L, $(LPATHS))
+
 OBJDIR = ../obj
 SRCDIR = .
 SHIPDIR = ../ship
 
-_OBJ = main.o
+_OBJ = layer2/ethernet.o
+_GTEST_OBJ = layer2/unit-tests/ethernet_gtest.o
+_LIBA = /usr/local/lib/libgtest.a
+
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
+GTEST_OBJ = $(addprefix $(OBJDIR)/. $(_GTEST_OBJ))
+LIBA = $(addprefix -l, $(_LIBA))
 
 $(OBJDIR)/%.o: %.cpp
-	$(MKDIR) -p $(OBJDIR)
+	$(MKDIR) -p $(dir $@)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-pkt-decode: $(OBJ)
+ALL = pkt-decode pkt-decode-gtest
+
+all: $(ALL)
+
+pkt-decode: $(OBJDIR)/main.o $(OBJ)
+	$(ECHO) Building $@
 	$(MKDIR) -p $(SHIPDIR)
 	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS)
+	$(ECHO) Finished $@
+
+pkt-decode-gtest: $(OBJDIR)/gtest_main.o $(OBJ)
+	$(ECHO) Building $@
+	$(MKDIR) -p $(SHIPDIR)
+	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(_LIBA)
+	$(ECHO) Finished $@
 
 clean:
 	$(RM) -rf $(OBJDIR) $(SHIPDIR)
