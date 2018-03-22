@@ -27,6 +27,7 @@ class MacAddr {
     MacAddr (void);
     MacAddr (uint8_t const * pkt);
     uint8_t const * getAddr (void) const;
+    string const toString (void) const;
     friend ostream & operator<< (ostream &output, MacAddr const &addr);
 };
 

@@ -7,6 +7,9 @@
 
 #include <ethernet.hpp>
 #include <iomanip>
+#include <sstream>
+
+using namespace std;
 
 MacAddr::MacAddr (void) {
     memset (addr, 0, MacAddrLen);
