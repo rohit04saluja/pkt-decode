@@ -48,7 +48,12 @@ pkt-decode-gtest: $(OBJDIR)/gtest_main.o $(OBJ)
 	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(_LIBA)
 	$(ECHO) Finished $@
 
+install:
+	$(ECHO) Coping targets
+	cp $(SHIPDIR)/* /usr/local/bin
+
 clean:
+	$(ECHO) Deleting all targets and .o
 	$(RM) -rf $(OBJDIR) $(SHIPDIR)
 
 .PHONY: pkt-decode clean
