@@ -72,4 +72,11 @@ class Ethernet {
     friend bool const operator!= (Ethernet const &lhs, Ethernet const &rhs);
 };
 
+/*
+ * @brief
+ * Different ether types
+ */
+#define ETH_TYPE_IPV4       0x0800
+#define ETH_TYPE_VLAN       0x8100
+
 #endif  // ETHERNET_H_
