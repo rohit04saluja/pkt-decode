@@ -18,7 +18,7 @@ _OBJ = main.o layer2/ethernet.o
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
 
 $(OBJDIR)/%.o: %.cpp
-	$(MKDIR) -p $(OBJDIR)
+	$(MKDIR) -p $(dir $@)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 pkt-decode: $(OBJ)
