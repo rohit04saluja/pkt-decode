@@ -25,7 +25,7 @@ _GTEST_OBJ = layer2/unit-tests/ethernet_gtest.o
 _LIBA = /usr/local/lib/libgtest.a
 
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
-GTEST_OBJ = $(addprefix $(OBJDIR)/. $(_GTEST_OBJ))
+GTEST_OBJ = $(addprefix $(OBJDIR)/, $(_GTEST_OBJ))
 LIBA = $(addprefix -l, $(_LIBA))
 
 $(OBJDIR)/%.o: %.cpp
@@ -42,7 +42,7 @@ pkt-decode: $(OBJDIR)/main.o $(OBJ)
 	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS)
 	$(ECHO) Finished $@
 
-pkt-decode-gtest: $(OBJDIR)/gtest_main.o $(OBJ)
+pkt-decode-gtest: $(OBJDIR)/gtest_main.o $(OBJ) $(GTEST_OBJ)
 	$(ECHO) Building $@
 	$(MKDIR) -p $(SHIPDIR)
 	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(_LIBA)
@@ -56,5 +56,4 @@ clean:
 	$(ECHO) Deleting all targets and .o
 	$(RM) -rf $(OBJDIR) $(SHIPDIR)
 
-.PHONY: pkt-decode clean
-
+.PHONY: pkt-decode clean pkt-decode-gtest install all
