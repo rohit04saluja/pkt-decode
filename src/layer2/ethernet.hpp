@@ -5,6 +5,9 @@
  * Copyright © 2018 rohit04saluja. All rights reserved.
  */
 
+#ifndef ETHERNET_H_
+#define ETHERNET_H_
+
 #include <iostream>
 #include <cstdint>
 
@@ -26,3 +29,5 @@ class MacAddr {
     uint8_t const * getAddr (void) const;
     friend ostream & operator<< (ostream &output, MacAddr const &addr);
 };
+
+#endif  // ETHERNET_H_
