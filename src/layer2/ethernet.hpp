@@ -50,6 +50,7 @@ class EtherType {
     EtherType (void);
     EtherType (const uint16_t val);
     uint16_t const getEt (void) const;
+    string const getName (void) const;
     friend bool const operator== (EtherType const &lhs, EtherType const &rhs);
     friend bool const operator!= (EtherType const &lhs, EtherType const &rhs);
     friend ostream & operator<< (ostream &output, EtherType const &et);

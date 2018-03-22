@@ -139,6 +139,24 @@ uint16_t const EtherType::getEt (void) const {
 
 /*
  * @brief
+ * Method to get the name of ethertype
+ *
+ * @return
+ * ethertype name
+ */
+string const EtherType::getName (void) const {
+    switch (et) {
+        case ETH_TYPE_IPV4:
+            return "ipv4";
+        case ETH_TYPE_VLAN:
+            return "vlan";
+        default:
+            return "unknown";
+    }
+}
+
+/*
+ * @brief
  * operator<< overloaded to print hex of ethertype
  *
  * @param[in]
@@ -245,7 +263,7 @@ EtherType const & Ethernet::getEt (void) const {
 void Ethernet::print (const uint8_t ls) const {
     cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
-    cout << string(ls, ' ') << "EtherType:   " << et << endl;
+    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.getName() << ")" << endl;
 }
 
 /*
