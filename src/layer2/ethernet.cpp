@@ -62,3 +62,53 @@ ostream & operator<< (ostream &output, MacAddr const &addr) {
     }
     return output;
 }
+
+
+/*
+ * @brief
+ * Default constructor for class
+ * initializa ethertype to 0
+ */
+EtherType::EtherType (void) {
+    et = 0;
+}
+
+/*
+ * @brief
+ * Constructor to initializa
+ * etherttype from given value
+ *
+ * @param[in]
+ * val      value of ethertype
+ */
+EtherType::EtherType (const uint16_t val) {
+    et = ntohs(val);
+}
+
+/*
+ * @brief
+ * Method to get the ethertype
+ *
+ * @return
+ * ethertype value
+ */
+uint16_t const EtherType::getEt (void) const {
+    return et;
+}
+
+/*
+ * @brief
+ * operator<< overloaded to print hex of ethertype
+ *
+ * @param[in]
+ * output       output stream
+ * @param[in]
+ * et           ether tyoe class
+ *
+ * @return
+ * output stream with the print
+ */
+ostream & operator<< (ostream &output, EtherType const &et) {
+    output << "0x" << setfill('0') << setw(4) << hex << et.et;
+    return output;
+}

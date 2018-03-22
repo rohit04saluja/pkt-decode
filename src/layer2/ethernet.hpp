@@ -14,6 +14,7 @@
 using namespace std;
 
 #define MacAddrLen      6
+#define EtherTypeLen    2
 
 /*
  * @brief
@@ -27,8 +28,22 @@ class MacAddr {
     MacAddr (void);
     MacAddr (uint8_t const * pkt);
     uint8_t const * getAddr (void) const;
-    string const toString (void) const;
     friend ostream & operator<< (ostream &output, MacAddr const &addr);
+};
+
+/*
+ * @brief
+ * Class for ether type
+ */
+class EtherType {
+    private:
+    uint16_t et;
+
+    public:
+    EtherType (void);
+    EtherType (const uint16_t val);
+    uint16_t const getEt (void) const;
+    friend ostream & operator<< (ostream &output, EtherType const &et);
 };
 
 #endif  // ETHERNET_H_
