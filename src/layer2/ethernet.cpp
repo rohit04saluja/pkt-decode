@@ -26,7 +26,7 @@ uint8_t const * MacAddr::getAddr (void) const {
 ostream & operator<< (ostream &output, MacAddr const &addr) {
     for (int i=0; i<MacAddrLen; i++) {
         output << (i!=0 ? ":" : "");
-        output << hex << setfill('0') << setw (2) << +addr.addr[i];
+        output << hex << setfill('0') << setw(2) << +addr.addr[i];
     }
     return output;
 }
