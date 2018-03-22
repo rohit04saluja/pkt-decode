@@ -13,6 +13,10 @@
 
 using namespace std;
 
+/*
+ * @brief
+ * Lenghts of different components of layer2 header
+ */
 #define MacAddrLen      6
 #define EtherTypeLen    2
 #define EthernetLen     MacAddrLen * 2 + EtherTypeLen
