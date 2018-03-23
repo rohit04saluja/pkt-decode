@@ -30,7 +30,7 @@ TEST (MacAddr, MacAddrInit) {
     uint8_t pkt [MacAddrLen] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
     MacAddr addr(pkt);
 
-    EXPECT_TRUE(0 == memcmp(addr.Addr(), pkt, MacAddrLen));
+    EXPECT_EQ(0, memcmp(addr.Addr(), pkt, MacAddrLen));
 
     ostringstream os;
     os << addr;
