@@ -216,6 +216,119 @@ bool const operator!= (EtherType const &lhs, EtherType const &rhs) {
     return (lhs.et != rhs.et);
 }
 
+
+/*
+ * @brief
+ * Default constructor for class
+ * initialize header to 0
+ */
+EthVlanTag::EthVlanTag (void) {
+    tpid = EtherType();
+    pcp = 0;
+    dei = 0;
+    vid = 0;
+}
+
+/*
+ * @brief
+ * Initialization constructor for class
+ * initializa the pkt header
+ *
+ * @param[in]
+ * pkt      pointer to packet
+ */
+EthVlanTag::EthVlanTag (const uint8_t * pkt) {
+    tpid = EtherType(pkt);
+    pcp = 0x7 & (*(pkt+EtherTypeLen) >> 5);
+    dei = 0x1 & (*(pkt+EtherTypeLen) >> 4);
+    vid = 0xfff & ntohs(*((uint16_t *) (pkt+EtherTypeLen)));
+}
+
+/*
+ * @brief
+ * Method to get tpid
+ */
+EtherType const EthVlanTag::Tpid (void) const {
+    return tpid;
+}
+
+/*
+ * @brief
+ * Method to get pcp
+ */
+uint8_t const EthVlanTag::Pcp (void) const {
+    return pcp;
+}
+
+/*
+ * @brief
+ * Method to get dei
+ */
+uint8_t const EthVlanTag::Dei (void) const {
+    return dei;
+}
+
+/*
+ * @brief
+ * Method to get vid
+ */
+uint16_t const EthVlanTag::Vid (void) const {
+    return vid;
+}
+
+/*
+ * @brief
+ * Method to print the Vlang to the consold
+ *
+ * @param[in]
+ * ls       number of leading spaces
+ */
+void EthVlanTag::print (const uint8_t ls) const {
+    cout << string(ls, ' ') << "Tpid: " << tpid << endl;
+    cout << string(ls, ' ') << "Pcp:  " << +pcp << endl;
+    cout << string(ls, ' ') << "Dei:  " << +dei << endl;
+    cout << string(ls, ' ') << "Vid:  0x" << setfill('0') << setw(3) << hex << vid << "/" << dec << vid << endl;
+}
+
+/*
+ * @brief
+ * operator== overloaded to tell if tags are equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if all the fields are equal
+ */
+bool const operator== (EthVlanTag const &lhs, EthVlanTag const &rhs) {
+    if (lhs.tpid == rhs.tpid &&
+        lhs.pcp == rhs.pcp &&
+        lhs.dei == rhs.dei &&
+        lhs.vid == rhs.vid) {
+        return true;
+    }
+    return false;
+}
+
+/*
+ * @brief
+ * operator!= overloaded to tell if tags are not equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if operator== is false
+ */
+bool const operator!= (EthVlanTag const &lhs, EthVlanTag const &rhs) {
+    return !(lhs == rhs);
+}
+
+
 /*
  * @brief
  * Default constructor for class

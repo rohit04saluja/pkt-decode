@@ -19,6 +19,7 @@ using namespace std;
  */
 #define MacAddrLen      6
 #define EtherTypeLen    2
+#define EthVlanTagLen   4
 #define EthernetLen     MacAddrLen * 2 + EtherTypeLen
 
 /*
@@ -55,6 +56,29 @@ class EtherType {
     friend bool const operator== (EtherType const &lhs, EtherType const &rhs);
     friend bool const operator!= (EtherType const &lhs, EtherType const &rhs);
     friend ostream & operator<< (ostream &output, EtherType const &et);
+};
+
+/*
+ * @brief
+ * Class for vlang tag
+ */
+class EthVlanTag {
+    private:
+    EtherType tpid;
+    uint8_t pcp:3;
+    uint8_t dei:1;
+    uint16_t vid:12;
+
+    public:
+    EthVlanTag (void);
+    EthVlanTag (const uint8_t * pkt);
+    EtherType const Tpid (void) const;
+    uint8_t const Pcp (void) const;
+    uint8_t const Dei (void) const;
+    uint16_t const Vid (void) const;
+    void print (const uint8_t ls=0) const;
+    friend bool const operator== (EthVlanTag const &lhs, EthVlanTag const &rhs);
+    friend bool const operator!= (EthVlanTag const &lhs, EthVlanTag const &rhs);
 };
 
 /*
