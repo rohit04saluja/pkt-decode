@@ -22,7 +22,7 @@ OBJDIR = ../obj
 SRCDIR = .
 SHIPDIR = ../ship
 
-_OBJ = layer2/ethernet.o layer2/decode.o
+_OBJ = decode.o layer2/ethernet.o layer2/layer2_decode.o
 _GTEST_OBJ = layer2/unit-tests/ethernet_gtest.o layer2/unit-tests/layer2_decode_gtest.o
 _LIBA = /usr/local/lib/libgtest.a
 
