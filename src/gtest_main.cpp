@@ -13,5 +13,8 @@ using namespace std;
 GTEST_API_ int main (int argc, char *argv[]) {
     cout << "Running main() from gtest_main.cc" << endl;
     testing::InitGoogleTest(&argc, argv);
+    if (argc == 2) {
+        testing::GTEST_FLAG(filter) = argv[1];
+    }
     return RUN_ALL_TESTS();
 }
