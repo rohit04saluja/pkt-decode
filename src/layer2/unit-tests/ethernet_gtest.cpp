@@ -16,7 +16,6 @@ using namespace std;
  */
 TEST (MacAddr, MacAddrDefault) {
     MacAddr addr;
-    const uint8_t * out = addr.Addr();
 
     ostringstream os;
     os << addr;
@@ -31,7 +30,7 @@ TEST (MacAddr, MacAddrInit) {
     uint8_t pkt [MacAddrLen] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55};
     MacAddr addr(pkt);
 
-    EXPECT_EQ(MacAddr(pkt), addr);
+    EXPECT_TRUE(0 == memcmp(addr.Addr(), pkt, MacAddrLen));
 
     ostringstream os;
     os << addr;
@@ -66,20 +65,11 @@ TEST (EtherType, EtherTypeDefault) {
  * Test to check the working of initialization constructor
  */
 TEST (EtherType, EtherTypeInit) {
-    uint8_t pkt [EtherTypeLen] = {0x08, 0x00};
-    EtherType eth(*pkt);
-
-    EXPECT_EQ(EtherType(pkt), eth);
-
+    uint8_t pkt [EtherTypeLen] = {0x12, 0x34};
+    EtherType eth(pkt);
     ostringstream os;
-    os << eth;
-    EXPECT_STREQ("0x0800", os.str().c_str());
 
-    pkt[0] = 0x12;
-    pkt[1] = 0x34;
-    eth = EtherType(pkt);
-
-    os.str("");
+    EXPECT_EQ(eth.Et(), 0x1234);
     os << eth;
     EXPECT_STREQ("0x1234", os.str().c_str());
 }
@@ -88,7 +78,8 @@ TEST (EtherType, EtherTypeInit) {
  * @brief
  * Test to check if ether types are not equal
  */
-TEST (EtherType, EtherTypeNotEq) {
+TEST (EtherType, EtherTypeEq) {
+    EXPECT_EQ(EtherType(0x1234), EtherType(0x1234));
     EXPECT_NE(EtherType(0x0800), EtherType(0x0801));
 }
 
