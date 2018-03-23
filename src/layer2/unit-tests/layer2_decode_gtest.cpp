@@ -1,5 +1,5 @@
 /*
- * decode_gtest.cpp
+ * layer2_decode_gtest.cpp
  *
  * Created by Rohit Saluja on 3/23/2018.
  * Copyright © 2018 rohit04saluja. All rights reserved.
@@ -16,7 +16,7 @@ using namespace std;
  * TEST the working of layer2 decode
  * ethernet packet
  */
-TEST (Decode, DecodeEthernet) {
+TEST (Layer2Decode, Layer2DecodeEthernet) {
     const uint8_t pkt [EthernetLen] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0x10, 0x20, 0x08, 0x00};
 
     testing::internal::CaptureStdout();
@@ -33,7 +33,7 @@ TEST (Decode, DecodeEthernet) {
  * TEST the working of layer2 decode for
  * single tagged packet
  */
-TEST (Decode, DecodeEthVlanTagSingle) {
+TEST (Layer2Decode, Layer2DecodeEthVlanTagSingle) {
     uint8_t pkt [EthVlanTagSingleLen] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0x10, 0x20, 0x81, 0x00, 0x32, 0x00, 0x08, 0x00};
     
     testing::internal::CaptureStdout();
