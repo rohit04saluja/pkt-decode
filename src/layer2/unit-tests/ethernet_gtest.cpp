@@ -107,14 +107,14 @@ TEST (Ethernet, EthernetInit) {
     eth.print(0);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 11:22:33:44:55:66\nDst Address: 55:44:33:22:11:00\nEtherType:   0x0800\n";
+    string sVal = "Src Address: 11:22:33:44:55:66\nDst Address: 55:44:33:22:11:00\nEtherType:   0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     testing::internal::CaptureStdout();
     eth.print(4);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "    Src Address: 11:22:33:44:55:66\n    Dst Address: 55:44:33:22:11:00\n    EtherType:   0x0800\n";
+    sVal = "    Src Address: 11:22:33:44:55:66\n    Dst Address: 55:44:33:22:11:00\n    EtherType:   0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 }
 

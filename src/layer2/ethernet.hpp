@@ -13,6 +13,10 @@
 
 using namespace std;
 
+/*
+ * @brief
+ * Lenghts of different components of layer2 header
+ */
 #define MacAddrLen      6
 #define EtherTypeLen    2
 #define EthernetLen     MacAddrLen * 2 + EtherTypeLen
@@ -46,6 +50,7 @@ class EtherType {
     EtherType (void);
     EtherType (const uint16_t val);
     uint16_t const getEt (void) const;
+    string const getName (void) const;
     friend bool const operator== (EtherType const &lhs, EtherType const &rhs);
     friend bool const operator!= (EtherType const &lhs, EtherType const &rhs);
     friend ostream & operator<< (ostream &output, EtherType const &et);
@@ -71,5 +76,12 @@ class Ethernet {
     friend bool const operator== (Ethernet const &lhs, Ethernet const &rhs);
     friend bool const operator!= (Ethernet const &lhs, Ethernet const &rhs);
 };
+
+/*
+ * @brief
+ * Different ether types
+ */
+#define ETH_TYPE_IPV4       0x0800
+#define ETH_TYPE_VLAN       0x8100
 
 #endif  // ETHERNET_H_
