@@ -31,8 +31,10 @@ GTEST_OBJ = $(addprefix $(OBJDIR)/, $(_GTEST_OBJ))
 LIBA = $(addprefix -l, $(_LIBA))
 
 $(OBJDIR)/%.o: %.cpp
+	$(ECHO) Building $@
 	$(MKDIR) -p $(dir $@)
 	$(CC) -c -o $@ $< $(CFLAGS)
+	$(ECHO) Finished $@
 
 ALL = pkt-decode pkt-decode-gtest
 
