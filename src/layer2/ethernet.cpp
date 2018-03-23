@@ -128,6 +128,18 @@ EtherType::EtherType (const uint16_t val) {
 
 /*
  * @brief
+ * Constructor to initializa
+ * etherype from packet pointer
+ *
+ * @param[in]
+ * pkt      pointer to ethertype in packet
+ */
+EtherType::EtherType (const uint8_t * pkt) {
+    et = ntohs(*((uint16_t *) pkt));
+}
+
+/*
+ * @brief
  * Method to get the ethertype
  *
  * @return

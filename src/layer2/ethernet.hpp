@@ -49,6 +49,7 @@ class EtherType {
     public:
     EtherType (void);
     EtherType (const uint16_t val);
+    EtherType (const uint8_t * pkt);
     uint16_t const getEt (void) const;
     string const getName (void) const;
     friend bool const operator== (EtherType const &lhs, EtherType const &rhs);

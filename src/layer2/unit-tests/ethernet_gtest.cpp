@@ -56,8 +56,6 @@ TEST (MacAddr, MacAddrNotEq) {
 TEST (EtherType, EtherTypeDefault) {
     EtherType eth;
 
-    EXPECT_EQ(EtherType(0), eth);
-
     ostringstream os;
     os << eth;
     EXPECT_STREQ("0x0000", os.str().c_str());
@@ -71,11 +69,19 @@ TEST (EtherType, EtherTypeInit) {
     uint8_t pkt [EtherTypeLen] = {0x08, 0x00};
     EtherType eth(*pkt);
 
-    EXPECT_EQ(EtherType(*pkt), eth);
+    EXPECT_EQ(EtherType(pkt), eth);
 
     ostringstream os;
     os << eth;
     EXPECT_STREQ("0x0800", os.str().c_str());
+
+    pkt[0] = 0x12;
+    pkt[1] = 0x34;
+    eth = EtherType(pkt);
+
+    os.str("");
+    os << eth;
+    EXPECT_STREQ("0x1234", os.str().c_str());
 }
 
 /*
