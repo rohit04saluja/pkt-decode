@@ -5,7 +5,7 @@
  * Copyright © 2018 rohit04saluja. All rights reserved.
  */
 
-#include "decode.hpp"
+#include "layer2_decode.hpp"
 #include "ethernet.hpp"
 
 using namespace std;

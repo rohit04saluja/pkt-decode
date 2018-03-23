@@ -6,7 +6,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "decode.hpp"
+#include "layer2_decode.hpp"
 #include "ethernet.hpp"
 
 using namespace std;
