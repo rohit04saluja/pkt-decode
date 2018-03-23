@@ -117,7 +117,7 @@ EtherType::EtherType (void) {
 /*
  * @brief
  * Constructor to initializa
- * etherttype from given value
+ * ethertype from given value
  *
  * @param[in]
  * val      value of ethertype
@@ -226,7 +226,7 @@ Ethernet::Ethernet (void) {
 Ethernet::Ethernet (const uint8_t * pkt) {
     srcAddr = MacAddr(pkt);
     dstAddr = MacAddr(pkt + MacAddrLen);
-    et = EtherType(*((uint16_t *) (pkt + MacAddrLen * 2)));
+    et = EtherType(pkt + MacAddrLen * 2);
 }
 
 /*
