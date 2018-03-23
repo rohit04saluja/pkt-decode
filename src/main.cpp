@@ -77,11 +77,10 @@ static uint8_t HexStrToNum (string s) {
  * pkt          Pointer to buffer defined in the caller
  */
 static void PktFromStr (string &pktStr, uint8_t * pkt) {
-    int i = 0;
-    for (string::iterator it=pktStr.begin(); it!=pktStr.end(); it++) {
+    int i = 0, len = pktStr.length()/2;
+    for (string::iterator it=pktStr.begin(); i < len ; it++) {
         pkt[i++] = HexStrToNum(string(1, *it) + string(1, *++it));
     }
-    cout << endl;
 }
 
 /*
