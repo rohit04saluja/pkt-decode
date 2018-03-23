@@ -32,7 +32,7 @@ class MacAddr {
     public:
     MacAddr (void);
     MacAddr (uint8_t const * pkt);
-    uint8_t const * getAddr (void) const;
+    uint8_t const * Addr (void) const;
     friend ostream & operator<< (ostream &output, MacAddr const &addr);
     friend bool const operator== (MacAddr const &lhs, MacAddr const &rhs);
     friend bool const operator!= (MacAddr const &lhs, MacAddr const &rhs);
@@ -50,8 +50,8 @@ class EtherType {
     EtherType (void);
     EtherType (const uint16_t val);
     EtherType (const uint8_t * pkt);
-    uint16_t const getEt (void) const;
-    string const getName (void) const;
+    uint16_t const Et (void) const;
+    string const EtName (void) const;
     friend bool const operator== (EtherType const &lhs, EtherType const &rhs);
     friend bool const operator!= (EtherType const &lhs, EtherType const &rhs);
     friend ostream & operator<< (ostream &output, EtherType const &et);
@@ -70,9 +70,9 @@ class Ethernet {
     public:
     Ethernet (void);
     Ethernet (const uint8_t * pkt);
-    MacAddr const & getSrcAddr (void) const;
-    MacAddr const & getDstAddr (void) const;
-    EtherType const & getEt (void) const;
+    MacAddr const & SrcAddr (void) const;
+    MacAddr const & DstAddr (void) const;
+    EtherType const & Et (void) const;
     void print (const uint8_t ls=0) const;
     friend bool const operator== (Ethernet const &lhs, Ethernet const &rhs);
     friend bool const operator!= (Ethernet const &lhs, Ethernet const &rhs);

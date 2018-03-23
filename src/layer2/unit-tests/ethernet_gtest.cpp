@@ -16,7 +16,7 @@ using namespace std;
  */
 TEST (MacAddr, MacAddrDefault) {
     MacAddr addr;
-    const uint8_t * out = addr.getAddr();
+    const uint8_t * out = addr.Addr();
 
     ostringstream os;
     os << addr;
@@ -100,9 +100,9 @@ TEST (Ethernet, EthernetInit) {
     uint8_t pkt[EthernetLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x08, 0x00};
     Ethernet eth (pkt);
     
-    const MacAddr srcAddr = eth.getSrcAddr();
-    const MacAddr dstAddr = eth.getDstAddr();
-    const EtherType ethT = eth.getEt();
+    const MacAddr srcAddr = eth.SrcAddr();
+    const MacAddr dstAddr = eth.DstAddr();
+    const EtherType ethT = eth.Et();
 
     EXPECT_EQ(MacAddr(pkt), srcAddr);
     EXPECT_EQ(MacAddr(pkt+MacAddrLen), dstAddr);

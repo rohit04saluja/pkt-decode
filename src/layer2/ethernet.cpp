@@ -39,7 +39,7 @@ MacAddr::MacAddr (uint8_t const * pkt) {
  * @return
  * pointer to start of address
  */
-uint8_t const * MacAddr::getAddr (void) const {
+uint8_t const * MacAddr::Addr (void) const {
     return addr;
 }
 
@@ -145,7 +145,7 @@ EtherType::EtherType (const uint8_t * pkt) {
  * @return
  * ethertype value
  */
-uint16_t const EtherType::getEt (void) const {
+uint16_t const EtherType::Et (void) const {
     return et;
 }
 
@@ -156,7 +156,7 @@ uint16_t const EtherType::getEt (void) const {
  * @return
  * ethertype name
  */
-string const EtherType::getName (void) const {
+string const EtherType::EtName (void) const {
     switch (et) {
         case ETH_TYPE_IPV4:
             return "ipv4";
@@ -245,7 +245,7 @@ Ethernet::Ethernet (const uint8_t * pkt) {
  * @brief
  * Method to get the src address
  */
-MacAddr const & Ethernet::getSrcAddr (void) const {
+MacAddr const & Ethernet::SrcAddr (void) const {
     return srcAddr;
 }
 
@@ -253,7 +253,7 @@ MacAddr const & Ethernet::getSrcAddr (void) const {
  * @brief
  * Method to get the dst address
  */
-MacAddr const & Ethernet::getDstAddr (void) const {
+MacAddr const & Ethernet::DstAddr (void) const {
     return dstAddr;
 }
 
@@ -261,7 +261,7 @@ MacAddr const & Ethernet::getDstAddr (void) const {
  * @brief
  * Method to get the ethertype
  */
-EtherType const & Ethernet::getEt (void) const {
+EtherType const & Ethernet::Et (void) const {
     return et;
 }
 
@@ -275,7 +275,7 @@ EtherType const & Ethernet::getEt (void) const {
 void Ethernet::print (const uint8_t ls) const {
     cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
-    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.getName() << ")" << endl;
+    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
 }
 
 /*
@@ -292,9 +292,9 @@ void Ethernet::print (const uint8_t ls) const {
  * true is all members are equal
  */
 bool const operator== (Ethernet const &lhs, Ethernet const &rhs) {
-    if (lhs.getSrcAddr() == rhs.getSrcAddr() &&
-        lhs.getDstAddr() == rhs.getDstAddr() &&
-        lhs.getEt() == rhs.getEt()) {
+    if (lhs.SrcAddr() == rhs.SrcAddr() &&
+        lhs.DstAddr() == rhs.DstAddr() &&
+        lhs.Et() == rhs.Et()) {
         return true;
     }
     return false;
@@ -314,9 +314,9 @@ bool const operator== (Ethernet const &lhs, Ethernet const &rhs) {
  * true is all members are equal
  */
 bool const operator!= (Ethernet const &lhs, Ethernet const &rhs) {
-    if (lhs.getSrcAddr() != rhs.getSrcAddr() ||
-        lhs.getDstAddr() != rhs.getDstAddr() ||
-        lhs.getEt() != rhs.getEt()) {
+    if (lhs.SrcAddr() != rhs.SrcAddr() ||
+        lhs.DstAddr() != rhs.DstAddr() ||
+        lhs.Et() != rhs.Et()) {
         return true;
     }
     return false;
