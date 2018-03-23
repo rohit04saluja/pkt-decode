@@ -434,3 +434,91 @@ bool const operator!= (Ethernet const &lhs, Ethernet const &rhs) {
     }
     return false;
 }
+
+
+/*
+ * @brief
+ * Default constructor for class
+ * initialize all members to 0
+ */
+EthVlanTagSingle::EthVlanTagSingle (void) : Ethernet::Ethernet() {
+    vlan = EthVlanTag();
+}
+
+/*
+ * @brief
+ * Initialization constructor to initialize
+ * class with the pointed to start of packet
+ */
+EthVlanTagSingle::EthVlanTagSingle (const uint8_t * pkt) {
+    srcAddr = MacAddr(pkt);
+    dstAddr = MacAddr(pkt + MacAddrLen);
+    vlan = EthVlanTag(pkt + MacAddrLen * 2);
+    et = EtherType(pkt + MacAddrLen * 2 + EthVlanTagLen);
+
+    if (et.Et() != 0x8100) {
+        this->~EthVlanTagSingle();
+    }
+}
+
+/*
+ * @brief
+ * Method to get the ether tag
+ */
+EthVlanTag const & EthVlanTagSingle::Vlan (void) const {
+    return vlan;
+}
+
+/*
+ * @brief
+ * Print the header with values
+ *
+ * @param[in]
+ * ls       leading spaces needed in the print
+ */
+void EthVlanTagSingle::print (const uint8_t ls) const {
+    cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
+    cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
+    vlan.print(ls);
+    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
+}
+
+/*
+ * @brief
+ * Method to check if single tagged
+ * headers are the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if all the fields are equal
+ */
+bool const operator== (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs) {
+    if (lhs.srcAddr == rhs.srcAddr &&
+        lhs.dstAddr == rhs.dstAddr &&
+        lhs.vlan == rhs.vlan &&
+        lhs.et == rhs.et) {
+        return true;
+    }
+    return false;
+}
+
+/*
+ * @brief
+ * Method to check if single tagged
+ * headers are not the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if operator== is false
+ */
+bool const operator!= (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs) {
+    return !(lhs==rhs);
+}

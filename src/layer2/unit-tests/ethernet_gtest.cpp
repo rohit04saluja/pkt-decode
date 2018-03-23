@@ -163,3 +163,49 @@ TEST (Ethernet, EthernetNotEq) {
     uint8_t pkt2[EthernetLen] = {0x11, 0x22, 0x33, 0x44, 0x54, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x08, 0x00};
     EXPECT_NE(Ethernet(pkt1), Ethernet(pkt2));
 }
+
+/*
+ * @brief
+ * Test to check normal working of EthVlanTagSingle
+ */
+TEST (EthVlanTagSingle, EthVlanTagSingleInit) {
+    uint8_t pkt[EthVlanTagSingleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x32, 0x00, 0x08, 0x00};
+    EthVlanTagSingle eth (pkt);
+    
+    const MacAddr srcAddr = eth.SrcAddr();
+    const MacAddr dstAddr = eth.DstAddr();
+    const EthVlanTag tag = eth.Vlan();
+    const EtherType ethT = eth.Et();
+
+    EXPECT_EQ(MacAddr(pkt), srcAddr);
+    EXPECT_EQ(MacAddr(pkt+MacAddrLen), dstAddr);
+    EXPECT_EQ(EthVlanTag(pkt+MacAddrLen*2), tag);
+    EXPECT_EQ(EtherType((pkt+MacAddrLen*2+EthVlanTagLen)), ethT);
+    EXPECT_EQ(EthVlanTagSingle(pkt), eth);
+
+    testing::internal::CaptureStdout();
+    eth.print(0);
+    string s = testing::internal::GetCapturedStdout();
+
+    string sVal = "Src Address: 11:22:33:44:55:66\nDst Address: 55:44:33:22:11:00\nTpid: 0x8100\nPcp:  1\nDei:  1\nVid:  0x200/512\nEtherType:   0x0800 (ipv4)\n";
+    EXPECT_STREQ(s.c_str(), sVal.c_str());
+
+    testing::internal::CaptureStdout();
+    eth.print(4);
+    s = testing::internal::GetCapturedStdout();
+
+    sVal = "    Src Address: 11:22:33:44:55:66\n    Dst Address: 55:44:33:22:11:00\n    Tpid: 0x8100\n    Pcp:  1\n    Dei:  1\n    Vid:  0x200/512\n    EtherType:   0x0800 (ipv4)\n";
+    EXPECT_STREQ(s.c_str(), sVal.c_str());
+
+    pkt[MacAddrLen*2 + 1] = 0x01;
+}
+
+/*
+ * @brief
+ * Test to check headers being not equal
+ */
+TEST (EthVlanTagSingle, EthVlanTagSingleEq) {
+    uint8_t pkt1[EthVlanTagSingleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x32, 0x00, 0x08, 0x00};
+    uint8_t pkt2[EthVlanTagSingleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x31, 0x00, 0x08, 0x00};
+    EXPECT_NE(EthVlanTagSingle(pkt1), EthVlanTagSingle(pkt2));
+}
