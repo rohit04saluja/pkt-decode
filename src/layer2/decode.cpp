@@ -21,8 +21,13 @@ using namespace std;
  * size of the layer2 header
  */
 size_t layer2_decode (const uint8_t * pkt) {
-    Ethernet eth(pkt);
-
-    eth.print();
-    return EthernetLen;
+    EthVlanTagSingle eth(pkt);
+    
+    if (eth.isValid()) {
+        eth.print();
+        return EthVlanTagSingleLen;
+    } else {
+        Ethernet(pkt).print();
+        return EthernetLen;
+    }
 }
