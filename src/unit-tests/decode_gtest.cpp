@@ -23,7 +23,7 @@ TEST (Decode, DecodeEthernet) {
     decode(pkt, 19);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 00:11:22:33:44:55\nDst Address: 66:77:88:99:10:20\nEtherType:   0x0800 (ipv4)\nData: 0x12 0x34 0x56 0x78 0x90\n";
+    string sVal = "Layer2:\n  Src Address: 00:11:22:33:44:55\n  Dst Address: 66:77:88:99:10:20\n  EtherType:   0x0800 (ipv4)\nData: 0x12 0x34 0x56 0x78 0x90\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 }
 
@@ -39,6 +39,6 @@ TEST (Decode, DecodeEthVlanTagSingle) {
     decode(pkt, 23);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 00:11:22:33:44:55\nDst Address: 66:77:88:99:10:20\nTpid: 0x8100\nPcp:  1\nDei:  1\nVid:  0x200/512\nEtherType:   0x0800 (ipv4)\nData: 0x12 0x34 0x56 0x78 0x90\n";
+    string sVal = "Layer2:\n  Src Address: 00:11:22:33:44:55\n  Dst Address: 66:77:88:99:10:20\n  Tpid: 0x8100\n  Pcp:  1\n  Dei:  1\n  Vid:  0x200/512\n  EtherType:   0x0800 (ipv4)\nData: 0x12 0x34 0x56 0x78 0x90\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 }

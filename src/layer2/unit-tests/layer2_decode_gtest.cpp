@@ -23,7 +23,7 @@ TEST (Layer2Decode, Layer2DecodeEthernet) {
     size_t l = layer2_decode(pkt);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 00:11:22:33:44:55\nDst Address: 66:77:88:99:10:20\nEtherType:   0x0800 (ipv4)\n";
+    string sVal = "Layer2:\n  Src Address: 00:11:22:33:44:55\n  Dst Address: 66:77:88:99:10:20\n  EtherType:   0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
     EXPECT_EQ (EthernetLen, l);
 }
@@ -40,7 +40,7 @@ TEST (Layer2Decode, Layer2DecodeEthVlanTagSingle) {
     size_t l = layer2_decode(pkt);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 00:11:22:33:44:55\nDst Address: 66:77:88:99:10:20\nTpid: 0x8100\nPcp:  1\nDei:  1\nVid:  0x200/512\nEtherType:   0x0800 (ipv4)\n";
+    string sVal = "Layer2:\n  Src Address: 00:11:22:33:44:55\n  Dst Address: 66:77:88:99:10:20\n  Tpid: 0x8100\n  Pcp:  1\n  Dei:  1\n  Vid:  0x200/512\n  EtherType:   0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
     EXPECT_EQ(EthVlanTagSingleLen, l);
 
@@ -50,7 +50,7 @@ TEST (Layer2Decode, Layer2DecodeEthVlanTagSingle) {
     l = layer2_decode(pkt);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "Src Address: 00:11:22:33:44:55\nDst Address: 66:77:88:99:10:20\nEtherType:   0x8200 (unknown)\n";
+    sVal = "Layer2:\n  Src Address: 00:11:22:33:44:55\n  Dst Address: 66:77:88:99:10:20\n  EtherType:   0x8200 (unknown)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
     EXPECT_EQ(EthernetLen, l);
 }

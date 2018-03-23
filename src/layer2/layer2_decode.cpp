@@ -23,11 +23,12 @@ using namespace std;
 size_t layer2_decode (const uint8_t * pkt) {
     EthVlanTagSingle eth(pkt);
     
+    cout << "Layer2:" << endl;
     if (eth.isValid()) {
-        eth.print();
+        eth.print(2);
         return EthVlanTagSingleLen;
     } else {
-        Ethernet(pkt).print();
+        Ethernet(pkt).print(2);
         return EthernetLen;
     }
 }
