@@ -116,6 +116,7 @@ class EthVlanTagSingle : public Ethernet {
     EthVlanTagSingle (const uint8_t * pkt);
     EthVlanTag const & Vlan (void) const;
     virtual void print (const uint8_t ls=0) const;
+    bool const isValid (void) const;
     friend bool const operator== (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs);
     friend bool const operator!= (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs);
 };

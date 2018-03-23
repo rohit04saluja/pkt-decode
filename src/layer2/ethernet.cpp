@@ -485,6 +485,17 @@ void EthVlanTagSingle::print (const uint8_t ls) const {
 
 /*
  * @brief
+ * Method to tell if packet header is valid or not
+ *
+ * @return
+ * true if tpid is 0x8100
+ */
+bool const EthVlanTagSingle::isValid (void) const {
+    return (vlan.Tpid().Et() == ETH_TYPE_VLAN);
+}
+
+/*
+ * @brief
  * Method to check if single tagged
  * headers are the same
  *
