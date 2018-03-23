@@ -99,7 +99,7 @@ static void PktFromStr (string &pktStr, uint8_t * pkt) {
 static void printData (const uint8_t * pkt, const size_t s, const uint8_t ls=0) {
     cout << string(ls, ' ') << "Data: ";
     for (int i=0; i<s; i++) {
-        cout << "0x" << setfill('0') << setw(2) << +pkt[i];
+        cout << "0x" << setfill('0') << setw(2) << +pkt[i] << " ";
     }
 }
 
