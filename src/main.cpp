@@ -77,30 +77,9 @@ static uint8_t HexStrToNum (string s) {
  * pkt          Pointer to buffer defined in the caller
  */
 static void PktFromStr (string &pktStr, uint8_t * pkt) {
-    int i = 0;
-    for (string::iterator it=pktStr.begin(); it!=pktStr.end(); it++) {
+    int i = 0, len = pktStr.length()/2;
+    for (string::iterator it=pktStr.begin(); i < len ; it++) {
         pkt[i++] = HexStrToNum(string(1, *it) + string(1, *++it));
-    }
-    cout << endl;
-}
-
-/*
- * @brief
- * API to print packet as data
- *
- * @param[in]
- * pkt      pointer to start of packet
- *
- * @param[in]
- * s        size of packet to be used
- *
- * @param[in]
- * ls       leading spaces to be given (default=0)
- */
-static void printData (const uint8_t * pkt, const size_t s, const uint8_t ls=0) {
-    cout << string(ls, ' ') << "Data: ";
-    for (int i=0; i<s; i++) {
-        cout << "0x" << setfill('0') << setw(2) << +pkt[i];
     }
 }
 
@@ -110,8 +89,6 @@ int main (int argc, char *argv[]) {
     size_t l = pktStr.length()/2;
     uint8_t pkt [l];
     PktFromStr(pktStr, pkt);
-    uint8_t pos = layer2_decode(pkt);
-    printData(pkt+pos, l-pos);
-    
+    decode(pkt, l);
     return 0;
 }

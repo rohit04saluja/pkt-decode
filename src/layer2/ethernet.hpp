@@ -17,9 +17,11 @@ using namespace std;
  * @brief
  * Lenghts of different components of layer2 header
  */
-#define MacAddrLen      6
-#define EtherTypeLen    2
-#define EthernetLen     MacAddrLen * 2 + EtherTypeLen
+#define MacAddrLen              6
+#define EtherTypeLen            2
+#define EthVlanTagLen           4
+#define EthernetLen             MacAddrLen * 2 + EtherTypeLen
+#define EthVlanTagSingleLen     EthernetLen + EthVlanTagLen
 
 /*
  * @brief
@@ -32,7 +34,7 @@ class MacAddr {
     public:
     MacAddr (void);
     MacAddr (uint8_t const * pkt);
-    uint8_t const * getAddr (void) const;
+    uint8_t const * Addr (void) const;
     friend ostream & operator<< (ostream &output, MacAddr const &addr);
     friend bool const operator== (MacAddr const &lhs, MacAddr const &rhs);
     friend bool const operator!= (MacAddr const &lhs, MacAddr const &rhs);
@@ -49,8 +51,9 @@ class EtherType {
     public:
     EtherType (void);
     EtherType (const uint16_t val);
-    uint16_t const getEt (void) const;
-    string const getName (void) const;
+    EtherType (const uint8_t * pkt);
+    uint16_t const Et (void) const;
+    string const EtName (void) const;
     friend bool const operator== (EtherType const &lhs, EtherType const &rhs);
     friend bool const operator!= (EtherType const &lhs, EtherType const &rhs);
     friend ostream & operator<< (ostream &output, EtherType const &et);
@@ -58,10 +61,33 @@ class EtherType {
 
 /*
  * @brief
+ * Class for vlang tag
+ */
+class EthVlanTag {
+    private:
+    EtherType tpid;
+    uint8_t pcp:3;
+    uint8_t dei:1;
+    uint16_t vid:12;
+
+    public:
+    EthVlanTag (void);
+    EthVlanTag (const uint8_t * pkt);
+    EtherType const Tpid (void) const;
+    uint8_t const Pcp (void) const;
+    uint8_t const Dei (void) const;
+    uint16_t const Vid (void) const;
+    void print (const uint8_t ls=0) const;
+    friend bool const operator== (EthVlanTag const &lhs, EthVlanTag const &rhs);
+    friend bool const operator!= (EthVlanTag const &lhs, EthVlanTag const &rhs);
+};
+
+/*
+ * @brief
  * Class for ethernet packet
  */
 class Ethernet {
-    private:
+    protected:
     MacAddr srcAddr;
     MacAddr dstAddr;
     EtherType et;
@@ -69,12 +95,30 @@ class Ethernet {
     public:
     Ethernet (void);
     Ethernet (const uint8_t * pkt);
-    MacAddr const & getSrcAddr (void) const;
-    MacAddr const & getDstAddr (void) const;
-    EtherType const & getEt (void) const;
-    void print (const uint8_t ls=0) const;
+    MacAddr const & SrcAddr (void) const;
+    MacAddr const & DstAddr (void) const;
+    EtherType const & Et (void) const;
+    virtual void print (const uint8_t ls=0) const;
     friend bool const operator== (Ethernet const &lhs, Ethernet const &rhs);
     friend bool const operator!= (Ethernet const &lhs, Ethernet const &rhs);
+};
+
+/*
+ * @brief
+ * Class for ethernet single tagged packet
+ */
+class EthVlanTagSingle : public Ethernet {
+    protected:
+    EthVlanTag vlan;
+
+    public:
+    EthVlanTagSingle (void);
+    EthVlanTagSingle (const uint8_t * pkt);
+    EthVlanTag const & Vlan (void) const;
+    virtual void print (const uint8_t ls=0) const;
+    bool const isValid (void) const;
+    friend bool const operator== (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs);
+    friend bool const operator!= (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs);
 };
 
 /*

@@ -10,18 +10,20 @@ MKDIR = mkdir
 RM = rm
 ECHO = echo
 
-IPATHS = layer2 layer2/unit-tests/
-LPATHS = /usr/local/lib
+IPATHS = . layer2
+IPATHS_GTEST = unit-tests layer2/unit-tests
+LPATHS_GTEST = /usr/local/lib
 
 CFLAGS = $(addprefix -I, $(IPATHS))
-CFLAGS += $(addprefix -L, $(LPATHS))
+CFLAGS_GTEST += $(addprefix -I, $(IPATHS_GTEST))
+CFLAGS_GTEST += $(addprefix -L, $(LPATHS_GTEST))
 
 OBJDIR = ../obj
 SRCDIR = .
 SHIPDIR = ../ship
 
-_OBJ = layer2/ethernet.o layer2/decode.o
-_GTEST_OBJ = layer2/unit-tests/ethernet_gtest.o layer2/unit-tests/decode_gtest.o
+_OBJ = decode.o layer2/ethernet.o layer2/layer2_decode.o
+_GTEST_OBJ = unit-tests/decode_gtest.o layer2/unit-tests/ethernet_gtest.o layer2/unit-tests/layer2_decode_gtest.o
 _LIBA = /usr/local/lib/libgtest.a
 
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
@@ -29,8 +31,10 @@ GTEST_OBJ = $(addprefix $(OBJDIR)/, $(_GTEST_OBJ))
 LIBA = $(addprefix -l, $(_LIBA))
 
 $(OBJDIR)/%.o: %.cpp
+	$(ECHO) Building $@
 	$(MKDIR) -p $(dir $@)
 	$(CC) -c -o $@ $< $(CFLAGS)
+	$(ECHO) Finished $@
 
 ALL = pkt-decode pkt-decode-gtest
 
@@ -45,7 +49,7 @@ pkt-decode: $(OBJDIR)/main.o $(OBJ)
 pkt-decode-gtest: $(OBJDIR)/gtest_main.o $(OBJ) $(GTEST_OBJ)
 	$(ECHO) Building $@
 	$(MKDIR) -p $(SHIPDIR)
-	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(_LIBA)
+	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(CFLAGS_GTEST) $(_LIBA)
 	$(ECHO) Finished $@
 
 install:

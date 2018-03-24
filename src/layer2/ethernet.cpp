@@ -39,7 +39,7 @@ MacAddr::MacAddr (uint8_t const * pkt) {
  * @return
  * pointer to start of address
  */
-uint8_t const * MacAddr::getAddr (void) const {
+uint8_t const * MacAddr::Addr (void) const {
     return addr;
 }
 
@@ -117,7 +117,7 @@ EtherType::EtherType (void) {
 /*
  * @brief
  * Constructor to initializa
- * etherttype from given value
+ * ethertype from given value
  *
  * @param[in]
  * val      value of ethertype
@@ -128,12 +128,24 @@ EtherType::EtherType (const uint16_t val) {
 
 /*
  * @brief
+ * Constructor to initializa
+ * etherype from packet pointer
+ *
+ * @param[in]
+ * pkt      pointer to ethertype in packet
+ */
+EtherType::EtherType (const uint8_t * pkt) {
+    et = ntohs(*((uint16_t *) pkt));
+}
+
+/*
+ * @brief
  * Method to get the ethertype
  *
  * @return
  * ethertype value
  */
-uint16_t const EtherType::getEt (void) const {
+uint16_t const EtherType::Et (void) const {
     return et;
 }
 
@@ -144,7 +156,7 @@ uint16_t const EtherType::getEt (void) const {
  * @return
  * ethertype name
  */
-string const EtherType::getName (void) const {
+string const EtherType::EtName (void) const {
     switch (et) {
         case ETH_TYPE_IPV4:
             return "ipv4";
@@ -204,6 +216,119 @@ bool const operator!= (EtherType const &lhs, EtherType const &rhs) {
     return (lhs.et != rhs.et);
 }
 
+
+/*
+ * @brief
+ * Default constructor for class
+ * initialize header to 0
+ */
+EthVlanTag::EthVlanTag (void) {
+    tpid = EtherType();
+    pcp = 0;
+    dei = 0;
+    vid = 0;
+}
+
+/*
+ * @brief
+ * Initialization constructor for class
+ * initializa the pkt header
+ *
+ * @param[in]
+ * pkt      pointer to packet
+ */
+EthVlanTag::EthVlanTag (const uint8_t * pkt) {
+    tpid = EtherType(pkt);
+    pcp = 0x7 & (*(pkt+EtherTypeLen) >> 5);
+    dei = 0x1 & (*(pkt+EtherTypeLen) >> 4);
+    vid = 0xfff & ntohs(*((uint16_t *) (pkt+EtherTypeLen)));
+}
+
+/*
+ * @brief
+ * Method to get tpid
+ */
+EtherType const EthVlanTag::Tpid (void) const {
+    return tpid;
+}
+
+/*
+ * @brief
+ * Method to get pcp
+ */
+uint8_t const EthVlanTag::Pcp (void) const {
+    return pcp;
+}
+
+/*
+ * @brief
+ * Method to get dei
+ */
+uint8_t const EthVlanTag::Dei (void) const {
+    return dei;
+}
+
+/*
+ * @brief
+ * Method to get vid
+ */
+uint16_t const EthVlanTag::Vid (void) const {
+    return vid;
+}
+
+/*
+ * @brief
+ * Method to print the Vlang to the consold
+ *
+ * @param[in]
+ * ls       number of leading spaces
+ */
+void EthVlanTag::print (const uint8_t ls) const {
+    cout << string(ls, ' ') << "Tpid: " << tpid << endl;
+    cout << string(ls, ' ') << "Pcp:  " << +pcp << endl;
+    cout << string(ls, ' ') << "Dei:  " << +dei << endl;
+    cout << string(ls, ' ') << "Vid:  0x" << setfill('0') << setw(3) << hex << vid << "/" << dec << vid << endl;
+}
+
+/*
+ * @brief
+ * operator== overloaded to tell if tags are equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if all the fields are equal
+ */
+bool const operator== (EthVlanTag const &lhs, EthVlanTag const &rhs) {
+    if (lhs.tpid == rhs.tpid &&
+        lhs.pcp == rhs.pcp &&
+        lhs.dei == rhs.dei &&
+        lhs.vid == rhs.vid) {
+        return true;
+    }
+    return false;
+}
+
+/*
+ * @brief
+ * operator!= overloaded to tell if tags are not equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if operator== is false
+ */
+bool const operator!= (EthVlanTag const &lhs, EthVlanTag const &rhs) {
+    return !(lhs == rhs);
+}
+
+
 /*
  * @brief
  * Default constructor for class
@@ -226,14 +351,14 @@ Ethernet::Ethernet (void) {
 Ethernet::Ethernet (const uint8_t * pkt) {
     srcAddr = MacAddr(pkt);
     dstAddr = MacAddr(pkt + MacAddrLen);
-    et = EtherType(*(pkt + MacAddrLen * 2));
+    et = EtherType(pkt + MacAddrLen * 2);
 }
 
 /*
  * @brief
  * Method to get the src address
  */
-MacAddr const & Ethernet::getSrcAddr (void) const {
+MacAddr const & Ethernet::SrcAddr (void) const {
     return srcAddr;
 }
 
@@ -241,7 +366,7 @@ MacAddr const & Ethernet::getSrcAddr (void) const {
  * @brief
  * Method to get the dst address
  */
-MacAddr const & Ethernet::getDstAddr (void) const {
+MacAddr const & Ethernet::DstAddr (void) const {
     return dstAddr;
 }
 
@@ -249,7 +374,7 @@ MacAddr const & Ethernet::getDstAddr (void) const {
  * @brief
  * Method to get the ethertype
  */
-EtherType const & Ethernet::getEt (void) const {
+EtherType const & Ethernet::Et (void) const {
     return et;
 }
 
@@ -263,7 +388,7 @@ EtherType const & Ethernet::getEt (void) const {
 void Ethernet::print (const uint8_t ls) const {
     cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
-    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.getName() << ")" << endl;
+    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
 }
 
 /*
@@ -280,9 +405,9 @@ void Ethernet::print (const uint8_t ls) const {
  * true is all members are equal
  */
 bool const operator== (Ethernet const &lhs, Ethernet const &rhs) {
-    if (lhs.getSrcAddr() == rhs.getSrcAddr() &&
-        lhs.getDstAddr() == rhs.getDstAddr() &&
-        lhs.getEt() == rhs.getEt()) {
+    if (lhs.SrcAddr() == rhs.SrcAddr() &&
+        lhs.DstAddr() == rhs.DstAddr() &&
+        lhs.Et() == rhs.Et()) {
         return true;
     }
     return false;
@@ -302,10 +427,109 @@ bool const operator== (Ethernet const &lhs, Ethernet const &rhs) {
  * true is all members are equal
  */
 bool const operator!= (Ethernet const &lhs, Ethernet const &rhs) {
-    if (lhs.getSrcAddr() != rhs.getSrcAddr() ||
-        lhs.getDstAddr() != rhs.getDstAddr() ||
-        lhs.getEt() != rhs.getEt()) {
+    if (lhs.SrcAddr() != rhs.SrcAddr() ||
+        lhs.DstAddr() != rhs.DstAddr() ||
+        lhs.Et() != rhs.Et()) {
         return true;
     }
     return false;
+}
+
+
+/*
+ * @brief
+ * Default constructor for class
+ * initialize all members to 0
+ */
+EthVlanTagSingle::EthVlanTagSingle (void) : Ethernet::Ethernet() {
+    vlan = EthVlanTag();
+}
+
+/*
+ * @brief
+ * Initialization constructor to initialize
+ * class with the pointed to start of packet
+ */
+EthVlanTagSingle::EthVlanTagSingle (const uint8_t * pkt) {
+    srcAddr = MacAddr(pkt);
+    dstAddr = MacAddr(pkt + MacAddrLen);
+    vlan = EthVlanTag(pkt + MacAddrLen * 2);
+    et = EtherType(pkt + MacAddrLen * 2 + EthVlanTagLen);
+
+    if (et.Et() != 0x8100) {
+        this->~EthVlanTagSingle();
+    }
+}
+
+/*
+ * @brief
+ * Method to get the ether tag
+ */
+EthVlanTag const & EthVlanTagSingle::Vlan (void) const {
+    return vlan;
+}
+
+/*
+ * @brief
+ * Print the header with values
+ *
+ * @param[in]
+ * ls       leading spaces needed in the print
+ */
+void EthVlanTagSingle::print (const uint8_t ls) const {
+    cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
+    cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
+    vlan.print(ls);
+    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
+}
+
+/*
+ * @brief
+ * Method to tell if packet header is valid or not
+ *
+ * @return
+ * true if tpid is 0x8100
+ */
+bool const EthVlanTagSingle::isValid (void) const {
+    return (vlan.Tpid().Et() == ETH_TYPE_VLAN);
+}
+
+/*
+ * @brief
+ * Method to check if single tagged
+ * headers are the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if all the fields are equal
+ */
+bool const operator== (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs) {
+    if (lhs.srcAddr == rhs.srcAddr &&
+        lhs.dstAddr == rhs.dstAddr &&
+        lhs.vlan == rhs.vlan &&
+        lhs.et == rhs.et) {
+        return true;
+    }
+    return false;
+}
+
+/*
+ * @brief
+ * Method to check if single tagged
+ * headers are not the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if operator== is false
+ */
+bool const operator!= (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs) {
+    return !(lhs==rhs);
 }

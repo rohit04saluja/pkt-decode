@@ -1,11 +1,11 @@
 /*
- * decode.cpp
+ * layer2_decode.cpp
  *
  * Created by Rohit Saluja on 3/22/18.
  * Copyright © 2018 rohit04saluja. All rights reserved.
  */
 
-#include "decode.hpp"
+#include "layer2_decode.hpp"
 #include "ethernet.hpp"
 
 using namespace std;
@@ -21,8 +21,14 @@ using namespace std;
  * size of the layer2 header
  */
 size_t layer2_decode (const uint8_t * pkt) {
-    Ethernet eth(pkt);
-
-    eth.print();
-    return EthernetLen;
+    EthVlanTagSingle eth(pkt);
+    
+    cout << "Layer2:" << endl;
+    if (eth.isValid()) {
+        eth.print(2);
+        return EthVlanTagSingleLen;
+    } else {
+        Ethernet(pkt).print(2);
+        return EthernetLen;
+    }
 }
