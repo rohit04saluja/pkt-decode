@@ -5,6 +5,8 @@
 # Copyright © 2018 rohit04saluja. All rights reserved.
 #
 
+.DEFAULT_GOAL = all
+
 CC = clang++
 MKDIR = mkdir
 RM = rm
