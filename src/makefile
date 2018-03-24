@@ -9,6 +9,9 @@ CC = clang++
 MKDIR = mkdir
 RM = rm
 ECHO = echo
+FIND = find
+GREP = grep
+XARGS = xargs
 
 IPATHS = . layer2 layer3
 IPATHS_GTEST = unit-tests layer2/unit-tests layer3/unit-tests
@@ -28,7 +31,15 @@ _LIBA = /usr/local/lib/libgtest.a
 
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
 GTEST_OBJ = $(addprefix $(OBJDIR)/, $(_GTEST_OBJ))
+GCOV_OBJ = $(addprefix $(OBJDIR)/gcov/, $(_OBJ))
+GCOV_OBJ += $(addprefix $(OBJDIR)/gcov/, $(_GTEST_OBJ))
 LIBA = $(addprefix -l, $(_LIBA))
+
+$(OBJDIR)/gcov/%.o: %.cpp
+	$(ECHO) Building $@
+	$(MKDIR) -p $(dir $@)
+	$(CC) -c -o $@ $< $(CFLAGS) -g -fprofile-arcs -ftest-coverage
+	$(ECHO) Finished $@
 
 $(OBJDIR)/%.o: %.cpp
 	$(ECHO) Building $@
@@ -39,6 +50,8 @@ $(OBJDIR)/%.o: %.cpp
 ALL = pkt-decode pkt-decode-gtest
 
 all: $(ALL)
+
+cbuild: pkt-decode-gtest-coverage
 
 pkt-decode: $(OBJDIR)/main.o $(OBJ)
 	$(ECHO) Building $@
@@ -52,12 +65,19 @@ pkt-decode-gtest: $(OBJDIR)/gtest_main.o $(OBJ) $(GTEST_OBJ)
 	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(CFLAGS_GTEST) $(_LIBA)
 	$(ECHO) Finished $@
 
+pkt-decode-gtest-coverage: $(OBJDIR)/gcov/gtest_main.o $(GCOV_OBJ)
+	$(ECHO) Building $@
+	$(MKDIR) -p $(SHIPDIR)
+	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(CFLAGS_GTEST) $(_LIBA) -g -fprofile-arcs -ftest-coverage
+	$(ECHO) Finished $@
+
 install:
 	$(ECHO) Coping targets
 	cp $(SHIPDIR)/* /usr/local/bin
 
 clean:
-	$(ECHO) Deleting all targets and .o
+	$(ECHO) Deleting all targets, .o and gcov files
 	$(RM) -rf $(OBJDIR) $(SHIPDIR)
+	$(FIND) * | $(GREP) gc | $(XARGS) rm
 
 .PHONY: pkt-decode clean pkt-decode-gtest install all
