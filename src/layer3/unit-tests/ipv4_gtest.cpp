@@ -39,10 +39,23 @@ TEST(Ipv4Addr, Ipv4AddrEq) {
  * @brief
  * TEST normal working of L3Proto
  */
-TEST(L3Proto, L3ProtoInti) {
+TEST(L3Proto, L3ProtoInit) {
     L3Proto proto(17);
     ostringstream os;
     os << proto;
     EXPECT_STREQ("17", os.str().c_str());
     EXPECT_STREQ("udp", proto.Name().c_str());
+}
+
+/*
+ * @brief
+ * TEST normal working of Ipv4Flag
+ */
+TEST(Ipv4Flag, Ipv4FlagInit) {
+   Ipv4Flag flag1(3), flag2(1);
+   
+   EXPECT_STREQ(flag1.Name().c_str(), "unknown");
+   EXPECT_STREQ(flag2.Name().c_str(), "df");
+
+   EXPECT_NE(flag1, flag2);
 }

@@ -149,3 +149,98 @@ ostream & operator<< (ostream &output, L3Proto const &proto) {
     output << +proto.proto;
     return output;
 }
+
+
+/*
+ * @brief
+ * Defulat constructor for class
+ * initialize the flag to 0
+ */
+Ipv4Flag::Ipv4Flag (void) {
+    flag = 0;
+}
+
+/*
+ * @brief
+ * Initialization construct for class
+ * initialize the flag from val
+ */
+Ipv4Flag::Ipv4Flag (const uint8_t val) {
+    flag = 0x7 & val;
+}
+
+/*
+ * @brief
+ * Method to get the value of flag
+ */
+uint8_t const Ipv4Flag::Flag (void) const {
+    return flag;
+}
+
+/*
+ * @brief
+ * Method to get the name of flag
+ */
+string const Ipv4Flag::Name (void) const {
+    switch(flag) {
+        case IPV4_FLAG_RSVD:
+            return "reserved";
+        case IPV4_FLAG_DF:
+            return "df";
+        case IPV4_FLAG_MF:
+            return "mf";
+        default:
+            return "unknown";
+    }
+}
+
+/*
+ * @brief
+ * operator<< overloaded to print value
+ *
+ * @param[in]
+ * output       ostream object
+ * @param[in]
+ * flag         value to be printed
+ *
+ * @return
+ * output with value of flag in string
+ */
+ostream & operator<< (ostream &output, Ipv4Flag const &flag) {
+    output << flag.flag;
+    return output;
+}
+
+/*
+ * @brief
+ * operator== overloaded to tell
+ * if flags are equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if flags are equal
+ */
+bool const operator== (Ipv4Flag const &lhs, Ipv4Flag const &rhs) {
+    return lhs.flag == rhs.flag;
+}
+
+/*
+ * @brief
+ * operator!= overloaded to tell
+ * if flags are not equal
+ *
+ * @param[in]
+ * lhs      left side of operator
+ * @param[in]
+ * rhs      right side of operator
+ *
+ * @return
+ * true if flags are not equal
+ */
+bool const operator!= (Ipv4Flag const &lhs, Ipv4Flag const &rhs) {
+    return lhs.flag != rhs.flag;
+}

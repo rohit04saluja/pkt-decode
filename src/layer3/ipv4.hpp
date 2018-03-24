@@ -61,4 +61,22 @@ class L3Proto {
     friend ostream & operator<< (ostream &output, L3Proto const &proto);
 };
 
+/*
+ * @brief
+ * Class for ipv4 flag
+ */
+class Ipv4Flag {
+    private:
+    uint8_t flag:3;
+
+    public:
+    Ipv4Flag (void);
+    Ipv4Flag (const uint8_t val);
+    uint8_t const Flag (void) const;
+    string const Name (void) const;
+    friend ostream & operator<< (ostream &output, Ipv4Flag const &flag);
+    friend bool const operator== (Ipv4Flag const &lhs, Ipv4Flag const &rhs);
+    friend bool const operator!= (Ipv4Flag const &lhs, Ipv4Flag const &rhs);
+};
+
 #endif  // IPV4_H_
