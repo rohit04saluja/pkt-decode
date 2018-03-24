@@ -34,3 +34,15 @@ TEST(Ipv4Addr, Ipv4AddrEq) {
     const uint8_t pkt2[Ipv4AddrLen] = {192, 168, 0, 2};
     EXPECT_NE(Ipv4Addr(pkt1), Ipv4Addr(pkt2));
 }
+
+/*
+ * @brief
+ * TEST normal working of L3Proto
+ */
+TEST(L3Proto, L3ProtoInti) {
+    L3Proto proto(17);
+    ostringstream os;
+    os << proto;
+    EXPECT_STREQ("17", os.str().c_str());
+    EXPECT_STREQ("udp", proto.Name().c_str());
+}
