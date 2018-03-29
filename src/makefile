@@ -17,11 +17,8 @@ XARGS = xargs
 
 IPATHS = . layer2 layer3
 IPATHS_GTEST = unit-tests layer2/unit-tests layer3/unit-tests
-LPATHS_GTEST = /usr/local/lib
 
 CFLAGS = $(addprefix -I, $(IPATHS))
-CFLAGS_GTEST += $(addprefix -I, $(IPATHS_GTEST))
-CFLAGS_GTEST += $(addprefix -L, $(LPATHS_GTEST))
 
 OBJDIR = ../obj
 SRCDIR = .
@@ -29,7 +26,7 @@ SHIPDIR = ../ship
 
 _OBJ = decode.o layer2/ethernet.o layer2/layer2_decode.o layer3/ipv4.o
 _GTEST_OBJ = unit-tests/decode_gtest.o layer2/unit-tests/ethernet_gtest.o layer2/unit-tests/layer2_decode_gtest.o layer3/unit-tests/ipv4_gtest.o
-_LIBA = /usr/local/lib/libgtest.a
+_LIBA = gtest
 
 OBJ = $(addprefix $(OBJDIR)/, $(_OBJ))
 GTEST_OBJ = $(addprefix $(OBJDIR)/, $(_GTEST_OBJ))
@@ -58,19 +55,19 @@ cbuild: pkt-decode-gtest-coverage
 pkt-decode: $(OBJDIR)/main.o $(OBJ)
 	$(ECHO) Building $@
 	$(MKDIR) -p $(SHIPDIR)
-	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS)
+	$(CC) -o $(SHIPDIR)/$@ $^
 	$(ECHO) Finished $@
 
 pkt-decode-gtest: $(OBJDIR)/gtest_main.o $(OBJ) $(GTEST_OBJ)
 	$(ECHO) Building $@
 	$(MKDIR) -p $(SHIPDIR)
-	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(CFLAGS_GTEST) $(_LIBA)
+	$(CC) -o $(SHIPDIR)/$@ $^ $(LIBA)
 	$(ECHO) Finished $@
 
 pkt-decode-gtest-coverage: $(OBJDIR)/gcov/gtest_main.o $(GCOV_OBJ)
 	$(ECHO) Building $@
 	$(MKDIR) -p $(SHIPDIR)
-	$(CC) -o $(SHIPDIR)/$@ $^ $(CFLAGS) $(CFLAGS_GTEST) $(_LIBA) -g -fprofile-arcs -ftest-coverage
+	$(CC) -o $(SHIPDIR)/$@ $^ $(LIBA) -g -fprofile-arcs -ftest-coverage
 	$(ECHO) Finished $@
 
 install:
