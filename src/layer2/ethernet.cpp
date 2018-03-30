@@ -285,9 +285,9 @@ uint16_t const EthVlanTag::Vid (void) const {
  */
 void EthVlanTag::print (const uint8_t ls) const {
     cout << string(ls, ' ') << "Tpid: " << tpid << endl;
-    cout << string(ls, ' ') << "Pcp:  " << +pcp << endl;
-    cout << string(ls, ' ') << "Dei:  " << +dei << endl;
-    cout << string(ls, ' ') << "Vid:  0x" << setfill('0') << setw(3) << hex << vid << "/" << dec << vid << endl;
+    cout << string(ls, ' ') << "Pcp: " << +pcp << endl;
+    cout << string(ls, ' ') << "Dei: " << +dei << endl;
+    cout << string(ls, ' ') << "Vid: 0x" << setfill('0') << setw(3) << hex << vid << "/" << dec << vid << endl;
 }
 
 /*
@@ -335,8 +335,8 @@ bool const operator!= (EthVlanTag const &lhs, EthVlanTag const &rhs) {
  * initialize packet to 0
  */
 Ethernet::Ethernet (void) {
-    srcAddr = MacAddr();
     dstAddr = MacAddr();
+    srcAddr = MacAddr();
     et = EtherType();
 }
 
@@ -349,17 +349,9 @@ Ethernet::Ethernet (void) {
  * pkt      pointer to start of packet
  */
 Ethernet::Ethernet (const uint8_t * pkt) {
-    srcAddr = MacAddr(pkt);
-    dstAddr = MacAddr(pkt + MacAddrLen);
+    dstAddr = MacAddr(pkt);
+    srcAddr = MacAddr(pkt + MacAddrLen);
     et = EtherType(pkt + MacAddrLen * 2);
-}
-
-/*
- * @brief
- * Method to get the src address
- */
-MacAddr const & Ethernet::SrcAddr (void) const {
-    return srcAddr;
 }
 
 /*
@@ -368,6 +360,14 @@ MacAddr const & Ethernet::SrcAddr (void) const {
  */
 MacAddr const & Ethernet::DstAddr (void) const {
     return dstAddr;
+}
+
+/*
+ * @brief
+ * Method to get the src address
+ */
+MacAddr const & Ethernet::SrcAddr (void) const {
+    return srcAddr;
 }
 
 /*
@@ -386,9 +386,9 @@ EtherType const & Ethernet::Et (void) const {
  * ls       leading spaces that need to be given
  */
 void Ethernet::print (const uint8_t ls) const {
-    cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
-    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
+    cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
+    cout << string(ls, ' ') << "EtherType: " << et << " (" << et.EtName() << ")" << endl;
 }
 
 /*
@@ -451,14 +451,10 @@ EthVlanTagSingle::EthVlanTagSingle (void) : Ethernet::Ethernet() {
  * class with the pointed to start of packet
  */
 EthVlanTagSingle::EthVlanTagSingle (const uint8_t * pkt) {
-    srcAddr = MacAddr(pkt);
-    dstAddr = MacAddr(pkt + MacAddrLen);
+    dstAddr = MacAddr(pkt);
+    srcAddr = MacAddr(pkt + MacAddrLen);
     vlan = EthVlanTag(pkt + MacAddrLen * 2);
     et = EtherType(pkt + MacAddrLen * 2 + EthVlanTagLen);
-
-    if (et.Et() != 0x8100) {
-        this->~EthVlanTagSingle();
-    }
 }
 
 /*
@@ -477,10 +473,10 @@ EthVlanTag const & EthVlanTagSingle::Vlan (void) const {
  * ls       leading spaces needed in the print
  */
 void EthVlanTagSingle::print (const uint8_t ls) const {
-    cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
+    cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     vlan.print(ls);
-    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
+    cout << string(ls, ' ') << "EtherType: " << et << " (" << et.EtName() << ")" << endl;
 }
 
 /*

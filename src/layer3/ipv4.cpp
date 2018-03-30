@@ -559,18 +559,18 @@ bool const Ipv4::isValid (void) const {
  * ls       number of leading spaces
  */
 void Ipv4::print (const uint8_t ls) const {
-    cout << string(ls, ' ') << "Version:        " << +ver << endl;
-    cout << string(ls, ' ') << "Header Len:     " << +ihl << " (" << dec << ihl * sizeof(uint32_t) << "B)" << endl;
-    cout << string(ls, ' ') << "DSCP:           " << +dscp << endl;
-    cout << string(ls, ' ') << "ECN:            " << +ecn << endl;
-    cout << string(ls, ' ') << "Total Len:      " << dec << len << endl;
-    cout << string(ls, ' ') << "Id:             " << id << endl;
-    cout << string(ls, ' ') << "Flag:           " << flag << " (" << flag.Name() << ")" << endl;
-    cout << string(ls, ' ') << "Frag Offset:    " << off << endl;
-    cout << string(ls, ' ') << "TTL:            " << +ttl << endl;
-    cout << string(ls, ' ') << "Protocol:       " << proto << " (" << proto.Name() << ")" << endl;
-    cout << string(ls, ' ') << "Checksum:       0x" << setfill('0') << setw(4) << hex << chksum << endl;
-    cout << string(ls, ' ') << "Source Ip:      " << srcip << endl;
+    cout << string(ls, ' ') << "Version: " << +ver << endl;
+    cout << string(ls, ' ') << "Header Len: " << +ihl << " (" << dec << ihl * sizeof(uint32_t) << "B)" << endl;
+    cout << string(ls, ' ') << "DSCP: " << +dscp << endl;
+    cout << string(ls, ' ') << "ECN: " << +ecn << endl;
+    cout << string(ls, ' ') << "Total Len: " << dec << len << endl;
+    cout << string(ls, ' ') << "Id: " << id << endl;
+    cout << string(ls, ' ') << "Flag: " << flag << " (" << flag.Name() << ")" << endl;
+    cout << string(ls, ' ') << "Frag Offset: " << off << endl;
+    cout << string(ls, ' ') << "TTL: " << +ttl << endl;
+    cout << string(ls, ' ') << "Protocol: " << proto << " (" << proto.Name() << ")" << endl;
+    cout << string(ls, ' ') << "Checksum: 0x" << setfill('0') << setw(4) << hex << chksum << endl;
+    cout << string(ls, ' ') << "Source Ip: " << srcip << endl;
     cout << string(ls, ' ') << "Destination Ip: " << dstip << endl;
 }
 

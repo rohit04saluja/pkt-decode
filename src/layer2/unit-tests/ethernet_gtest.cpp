@@ -100,14 +100,14 @@ TEST (EthVlanTag, EthVlanTagInit) {
     eth.print();
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Tpid: 0x1234\nPcp:  2\nDei:  1\nVid:  0x678/1656\n";
+    string sVal = "Tpid: 0x1234\nPcp: 2\nDei: 1\nVid: 0x678/1656\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     testing::internal::CaptureStdout();
     eth.print(4);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "    Tpid: 0x1234\n    Pcp:  2\n    Dei:  1\n    Vid:  0x678/1656\n";
+    sVal = "    Tpid: 0x1234\n    Pcp: 2\n    Dei: 1\n    Vid: 0x678/1656\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 }
 
@@ -130,12 +130,12 @@ TEST (Ethernet, EthernetInit) {
     uint8_t pkt[EthernetLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x08, 0x00};
     Ethernet eth (pkt);
     
-    const MacAddr srcAddr = eth.SrcAddr();
     const MacAddr dstAddr = eth.DstAddr();
+    const MacAddr srcAddr = eth.SrcAddr();
     const EtherType ethT = eth.Et();
 
-    EXPECT_EQ(MacAddr(pkt), srcAddr);
-    EXPECT_EQ(MacAddr(pkt+MacAddrLen), dstAddr);
+    EXPECT_EQ(MacAddr(pkt), dstAddr);
+    EXPECT_EQ(MacAddr(pkt+MacAddrLen), srcAddr);
     EXPECT_EQ(EtherType(*(pkt+MacAddrLen*2)), ethT);
     EXPECT_EQ(Ethernet(pkt), eth);
 
@@ -143,14 +143,14 @@ TEST (Ethernet, EthernetInit) {
     eth.print(0);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 11:22:33:44:55:66\nDst Address: 55:44:33:22:11:00\nEtherType:   0x0800 (ipv4)\n";
+    string sVal = "Dst Address: 11:22:33:44:55:66\nSrc Address: 55:44:33:22:11:00\nEtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     testing::internal::CaptureStdout();
     eth.print(4);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "    Src Address: 11:22:33:44:55:66\n    Dst Address: 55:44:33:22:11:00\n    EtherType:   0x0800 (ipv4)\n";
+    sVal = "    Dst Address: 11:22:33:44:55:66\n    Src Address: 55:44:33:22:11:00\n    EtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 }
 
@@ -172,13 +172,13 @@ TEST (EthVlanTagSingle, EthVlanTagSingleInit) {
     uint8_t pkt[EthVlanTagSingleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x32, 0x00, 0x08, 0x00};
     EthVlanTagSingle eth (pkt);
     
-    const MacAddr srcAddr = eth.SrcAddr();
     const MacAddr dstAddr = eth.DstAddr();
+    const MacAddr srcAddr = eth.SrcAddr();
     const EthVlanTag tag = eth.Vlan();
     const EtherType ethT = eth.Et();
 
-    EXPECT_EQ(MacAddr(pkt), srcAddr);
-    EXPECT_EQ(MacAddr(pkt+MacAddrLen), dstAddr);
+    EXPECT_EQ(MacAddr(pkt), dstAddr);
+    EXPECT_EQ(MacAddr(pkt+MacAddrLen), srcAddr);
     EXPECT_EQ(EthVlanTag(pkt+MacAddrLen*2), tag);
     EXPECT_EQ(EtherType((pkt+MacAddrLen*2+EthVlanTagLen)), ethT);
     EXPECT_EQ(EthVlanTagSingle(pkt), eth);
@@ -187,14 +187,14 @@ TEST (EthVlanTagSingle, EthVlanTagSingleInit) {
     eth.print(0);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 11:22:33:44:55:66\nDst Address: 55:44:33:22:11:00\nTpid: 0x8100\nPcp:  1\nDei:  1\nVid:  0x200/512\nEtherType:   0x0800 (ipv4)\n";
+    string sVal = "Dst Address: 11:22:33:44:55:66\nSrc Address: 55:44:33:22:11:00\nTpid: 0x8100\nPcp: 1\nDei: 1\nVid: 0x200/512\nEtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     testing::internal::CaptureStdout();
     eth.print(4);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "    Src Address: 11:22:33:44:55:66\n    Dst Address: 55:44:33:22:11:00\n    Tpid: 0x8100\n    Pcp:  1\n    Dei:  1\n    Vid:  0x200/512\n    EtherType:   0x0800 (ipv4)\n";
+    sVal = "    Dst Address: 11:22:33:44:55:66\n    Src Address: 55:44:33:22:11:00\n    Tpid: 0x8100\n    Pcp: 1\n    Dei: 1\n    Vid: 0x200/512\n    EtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     pkt[MacAddrLen*2 + 1] = 0x01;

@@ -25,20 +25,20 @@ TEST (Layer3Decode, Layer3DecodeIpv4) {
 
     string sVal;
     sVal += "Layer3:\n";
-    sVal += "  Version:        4\n";
-    sVal += "  Header Len:     5 (20B)\n";
-    sVal += "  DSCP:           0\n";
-    sVal += "  ECN:            0\n";
-    sVal += "  Total Len:      220\n";
-    sVal += "  Id:             54321\n";
-    sVal += "  Flag:           0 (reserved)\n";
-    sVal += "  Frag Offset:    0\n";
-    sVal += "  TTL:            245\n";
-    sVal += "  Protocol:       17 (udp)\n";
-    sVal += "  Checksum:       0x17df\n";
-    sVal += "  Source Ip:      89.46.101.31\n";
+    sVal += "  Version: 4\n";
+    sVal += "  Header Len: 5 (20B)\n";
+    sVal += "  DSCP: 0\n";
+    sVal += "  ECN: 0\n";
+    sVal += "  Total Len: 220\n";
+    sVal += "  Id: 54321\n";
+    sVal += "  Flag: 0 (reserved)\n";
+    sVal += "  Frag Offset: 0\n";
+    sVal += "  TTL: 245\n";
+    sVal += "  Protocol: 17 (udp)\n";
+    sVal += "  Checksum: 0x17df\n";
+    sVal += "  Source Ip: 89.46.101.31\n";
     sVal += "  Destination Ip: 196.95.70.83\n";
     
     EXPECT_STREQ(s.c_str(), sVal.c_str());
-    EXPECT_EQ (Ipv4MinLen/sizeof(uint32_t), l);
+    EXPECT_EQ (Ipv4MinLen, l);
 }
