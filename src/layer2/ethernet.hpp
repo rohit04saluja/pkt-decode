@@ -88,15 +88,15 @@ class EthVlanTag {
  */
 class Ethernet {
     protected:
-    MacAddr srcAddr;
     MacAddr dstAddr;
+    MacAddr srcAddr;
     EtherType et;
 
     public:
     Ethernet (void);
     Ethernet (const uint8_t * pkt);
-    MacAddr const & SrcAddr (void) const;
     MacAddr const & DstAddr (void) const;
+    MacAddr const & SrcAddr (void) const;
     EtherType const & Et (void) const;
     virtual void print (const uint8_t ls=0) const;
     friend bool const operator== (Ethernet const &lhs, Ethernet const &rhs);

@@ -130,12 +130,12 @@ TEST (Ethernet, EthernetInit) {
     uint8_t pkt[EthernetLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x08, 0x00};
     Ethernet eth (pkt);
     
-    const MacAddr srcAddr = eth.SrcAddr();
     const MacAddr dstAddr = eth.DstAddr();
+    const MacAddr srcAddr = eth.SrcAddr();
     const EtherType ethT = eth.Et();
 
-    EXPECT_EQ(MacAddr(pkt), srcAddr);
-    EXPECT_EQ(MacAddr(pkt+MacAddrLen), dstAddr);
+    EXPECT_EQ(MacAddr(pkt), dstAddr);
+    EXPECT_EQ(MacAddr(pkt+MacAddrLen), srcAddr);
     EXPECT_EQ(EtherType(*(pkt+MacAddrLen*2)), ethT);
     EXPECT_EQ(Ethernet(pkt), eth);
 
@@ -172,13 +172,13 @@ TEST (EthVlanTagSingle, EthVlanTagSingleInit) {
     uint8_t pkt[EthVlanTagSingleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x32, 0x00, 0x08, 0x00};
     EthVlanTagSingle eth (pkt);
     
-    const MacAddr srcAddr = eth.SrcAddr();
     const MacAddr dstAddr = eth.DstAddr();
+    const MacAddr srcAddr = eth.SrcAddr();
     const EthVlanTag tag = eth.Vlan();
     const EtherType ethT = eth.Et();
 
-    EXPECT_EQ(MacAddr(pkt), srcAddr);
-    EXPECT_EQ(MacAddr(pkt+MacAddrLen), dstAddr);
+    EXPECT_EQ(MacAddr(pkt), dstAddr);
+    EXPECT_EQ(MacAddr(pkt+MacAddrLen), srcAddr);
     EXPECT_EQ(EthVlanTag(pkt+MacAddrLen*2), tag);
     EXPECT_EQ(EtherType((pkt+MacAddrLen*2+EthVlanTagLen)), ethT);
     EXPECT_EQ(EthVlanTagSingle(pkt), eth);
