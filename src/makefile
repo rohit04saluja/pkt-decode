@@ -23,8 +23,8 @@ OBJDIR = ../obj
 SRCDIR = .
 SHIPDIR = ../ship
 
-_OBJ = decode.o layer2/ethernet.o layer2/layer2_decode.o layer3/ipv4.o layer3/layer3_decode.o
-_GTEST_OBJ = unit-tests/decode_gtest.o layer2/unit-tests/ethernet_gtest.o layer2/unit-tests/layer2_decode_gtest.o layer3/unit-tests/ipv4_gtest.o layer3/unit-tests/layer3_decode_gtest.o
+_OBJ = decode.o layer2/ethernet.o layer2/layer2_decode.o layer3/ipv4.o layer3/layer3_decode.o layer3/ipv6.o
+_GTEST_OBJ = unit-tests/decode_gtest.o layer2/unit-tests/ethernet_gtest.o layer2/unit-tests/layer2_decode_gtest.o layer3/unit-tests/ipv4_gtest.o layer3/unit-tests/layer3_decode_gtest.o layer3/unit-tests/ipv6_gtest.o
 
 _LIBA = gtest
 

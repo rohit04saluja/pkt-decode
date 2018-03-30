@@ -15,7 +15,7 @@ using namespace std;
 
 /*
  * @brief
- * Length os different components of ipv4 header
+ * Lengths of different components of ipv4 header
  */
 #define Ipv4AddrLen     4
 #define Ipv4MinLen      20
@@ -23,7 +23,7 @@ using namespace std;
 
 /*
  * @brief
- * Class for Ipv4 addrerss of packet
+ * Class for Ipv4 address of packet
  */
 class Ipv4Addr {
     private:
