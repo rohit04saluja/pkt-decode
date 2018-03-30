@@ -22,6 +22,7 @@ using namespace std;
 #define EthVlanTagLen           4
 #define EthernetLen             MacAddrLen * 2 + EtherTypeLen
 #define EthVlanTagSingleLen     EthernetLen + EthVlanTagLen
+#define EthVlanTagDoubleLen     EthernetLen + EthVlanTagLen * 2
 
 /*
  * @brief
@@ -119,6 +120,26 @@ class EthVlanTagSingle : public Ethernet {
     bool const isValid (void) const;
     friend bool const operator== (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs);
     friend bool const operator!= (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs);
+};
+
+/*
+ * @brief
+ * Class for thernet double tagged packet
+ */
+class EthVlanTagDouble : public Ethernet {
+    protected:
+    EthVlanTag vlan1;
+    EthVlanTag vlan2;
+
+    public:
+    EthVlanTagDouble (void);
+    EthVlanTagDouble (const uint8_t * pkt);
+    EthVlanTag const & Vlan1 (void) const;
+    EthVlanTag const & Vlan2 (void) const;
+    virtual void print (const uint8_t ls=0) const;
+    bool const isValid (void) const;
+    friend bool const operator== (EthVlanTagDouble const &lhs, EthVlanTagDouble const &rhs);
+    friend bool const operator!= (EthVlanTagDouble const &lhs, EthVlanTagDouble const &rhs);
 };
 
 /*

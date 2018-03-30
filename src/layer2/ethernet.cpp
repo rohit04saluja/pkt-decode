@@ -529,3 +529,115 @@ bool const operator== (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs)
 bool const operator!= (EthVlanTagSingle const &lhs, EthVlanTagSingle const &rhs) {
     return !(lhs==rhs);
 }
+
+
+/*
+ * @brief
+ * Default constructor for class
+ * initialize all members to 0
+ */
+EthVlanTagDouble::EthVlanTagDouble (void) : Ethernet::Ethernet() {
+    vlan1 = EthVlanTag();
+    vlan2 = EthVlanTag();
+}
+
+/*
+ * @brief
+ * Initialization constructor to initialize
+ * class with the pointed to start of packet
+ */
+EthVlanTagDouble::EthVlanTagDouble (const uint8_t * pkt) {
+    dstAddr = MacAddr(pkt);
+    srcAddr = MacAddr(pkt + MacAddrLen);
+    vlan1 = EthVlanTag(pkt + MacAddrLen * 2);
+    vlan2 = EthVlanTag(pkt + MacAddrLen * 2 + EthVlanTagLen);
+    et = EtherType(pkt + MacAddrLen * 2 + EthVlanTagLen * 2);
+}
+
+/*
+ * @brief
+ * Method to get the ether tag 1
+ */
+EthVlanTag const & EthVlanTagDouble::Vlan1 (void) const {
+    return vlan1;
+}
+
+/*
+ * @brief
+ * Method to get the ether tag 2
+ */
+EthVlanTag const & EthVlanTagDouble::Vlan2 (void) const {
+    return vlan2;
+}
+
+/*
+ * @brief
+ * Print the header with values
+ *
+ * @param[in]
+ * ls       leading spaces needed in the print
+ */
+void EthVlanTagDouble::print (const uint8_t ls) const {
+    cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
+    cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
+    cout << string(ls, ' ') << "Outer Vlan:" << endl;
+    vlan1.print(ls+2);
+    cout << string(ls, ' ') << "Inner Vlan:" << endl;
+    vlan2.print(ls+2);
+    cout << string(ls, ' ') << "EtherType: " << et << " (" << et.EtName() << ")" << endl;
+};
+
+/*
+ * @brief
+ * Method to tell if packet header is valid or not
+ *
+ * @return
+ * true if tpid of both vlans is 0x8100
+ */
+bool const EthVlanTagDouble::isValid (void) const {
+    return (
+        (vlan1.Tpid().Et() == ETH_TYPE_VLAN) && 
+        (vlan2.Tpid().Et() == ETH_TYPE_VLAN)
+    );
+}
+
+/*
+ * @brief
+ * Method to check if double tagged
+ * headers are the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if all the fields are equal
+ */
+bool const operator== (EthVlanTagDouble const &lhs, EthVlanTagDouble const &rhs) {
+    if (lhs.srcAddr == rhs.srcAddr &&
+        lhs.dstAddr == rhs.dstAddr &&
+        lhs.vlan1 == rhs.vlan1 &&
+        lhs.vlan2 == rhs.vlan2 &&
+        lhs.et == rhs.et) {
+        return true;
+    }
+    return false;
+}
+
+/*
+ * @brief
+ * Method to check if double tagged
+ * headers are not the same
+ *
+ * @param[in]
+ * lhs      left side of the operator
+ * @param[in]
+ * rhs      right side of the operator
+ *
+ * @return
+ * true if operator== is false
+ */
+bool const operator!= (EthVlanTagDouble const &lhs, EthVlanTagDouble const &rhs) {
+    return !(lhs==rhs);
+}
