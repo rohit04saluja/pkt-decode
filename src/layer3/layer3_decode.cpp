@@ -22,8 +22,10 @@ using namespace std;
  */
 size_t layer3_decode (const uint8_t * pkt) {
     Ipv4 ip(pkt);
-    
-    cout << "Layer3:" << endl;
-    ip.print(2);
-    return ip.Ihl();
+    if (ip.isValid()) {
+        cout << "Layer3:" << endl;
+        ip.print(2);
+        return (ip.Ihl() * sizeof(uint32_t));
+    }
+    return 0;
 }

@@ -8,6 +8,7 @@
 #include <iomanip>
 #include "decode.hpp"
 #include "layer2_decode.hpp"
+#include "layer3_decode.hpp"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ using namespace std;
  * pkt      pointer to start of packet
  *
  * @param[in]
- * s        size of packet to be used
+ * l        size of packet to be used
  *
  * @param[in]
  * ls       leading spaces to be given (default=0)
@@ -27,12 +28,14 @@ using namespace std;
 static void printData (const uint8_t * pkt, const size_t s, const uint8_t ls=0) {
     cout << string(ls, ' ') << "Data:";
     for (int i=0; i<s; i++) {
-        cout << " " << "0x" << setfill('0') << setw(2) << +pkt[i];
+        cout << " " << "0x" << setfill('0') << setw(2) << hex << +pkt[i];
     }
     cout << endl;
 }
 
 void decode (const uint8_t * pkt, const size_t l) {
-    uint8_t pos = layer2_decode (pkt);
+    uint8_t pos = 0;
+    pos += layer2_decode (pkt+pos);
+    pos += layer3_decode (pkt+pos);
     printData (pkt+pos, l-pos);
 }

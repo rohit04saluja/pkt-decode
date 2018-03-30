@@ -285,9 +285,9 @@ uint16_t const EthVlanTag::Vid (void) const {
  */
 void EthVlanTag::print (const uint8_t ls) const {
     cout << string(ls, ' ') << "Tpid: " << tpid << endl;
-    cout << string(ls, ' ') << "Pcp:  " << +pcp << endl;
-    cout << string(ls, ' ') << "Dei:  " << +dei << endl;
-    cout << string(ls, ' ') << "Vid:  0x" << setfill('0') << setw(3) << hex << vid << "/" << dec << vid << endl;
+    cout << string(ls, ' ') << "Pcp: " << +pcp << endl;
+    cout << string(ls, ' ') << "Dei: " << +dei << endl;
+    cout << string(ls, ' ') << "Vid: 0x" << setfill('0') << setw(3) << hex << vid << "/" << dec << vid << endl;
 }
 
 /*
@@ -388,7 +388,7 @@ EtherType const & Ethernet::Et (void) const {
 void Ethernet::print (const uint8_t ls) const {
     cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
-    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
+    cout << string(ls, ' ') << "EtherType: " << et << " (" << et.EtName() << ")" << endl;
 }
 
 /*
@@ -480,7 +480,7 @@ void EthVlanTagSingle::print (const uint8_t ls) const {
     cout << string(ls, ' ') << "Src Address: " << srcAddr << endl;
     cout << string(ls, ' ') << "Dst Address: " << dstAddr << endl;
     vlan.print(ls);
-    cout << string(ls, ' ') << "EtherType:   " << et << " (" << et.EtName() << ")" << endl;
+    cout << string(ls, ' ') << "EtherType: " << et << " (" << et.EtName() << ")" << endl;
 }
 
 /*

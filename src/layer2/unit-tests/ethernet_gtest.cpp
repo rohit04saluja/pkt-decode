@@ -100,14 +100,14 @@ TEST (EthVlanTag, EthVlanTagInit) {
     eth.print();
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Tpid: 0x1234\nPcp:  2\nDei:  1\nVid:  0x678/1656\n";
+    string sVal = "Tpid: 0x1234\nPcp: 2\nDei: 1\nVid: 0x678/1656\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     testing::internal::CaptureStdout();
     eth.print(4);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "    Tpid: 0x1234\n    Pcp:  2\n    Dei:  1\n    Vid:  0x678/1656\n";
+    sVal = "    Tpid: 0x1234\n    Pcp: 2\n    Dei: 1\n    Vid: 0x678/1656\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 }
 
@@ -143,14 +143,14 @@ TEST (Ethernet, EthernetInit) {
     eth.print(0);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 11:22:33:44:55:66\nDst Address: 55:44:33:22:11:00\nEtherType:   0x0800 (ipv4)\n";
+    string sVal = "Dst Address: 11:22:33:44:55:66\nSrc Address: 55:44:33:22:11:00\nEtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     testing::internal::CaptureStdout();
     eth.print(4);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "    Src Address: 11:22:33:44:55:66\n    Dst Address: 55:44:33:22:11:00\n    EtherType:   0x0800 (ipv4)\n";
+    sVal = "    Dst Address: 11:22:33:44:55:66\n    Src Address: 55:44:33:22:11:00\n    EtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 }
 
@@ -187,14 +187,14 @@ TEST (EthVlanTagSingle, EthVlanTagSingleInit) {
     eth.print(0);
     string s = testing::internal::GetCapturedStdout();
 
-    string sVal = "Src Address: 11:22:33:44:55:66\nDst Address: 55:44:33:22:11:00\nTpid: 0x8100\nPcp:  1\nDei:  1\nVid:  0x200/512\nEtherType:   0x0800 (ipv4)\n";
+    string sVal = "Dst Address: 11:22:33:44:55:66\nSrc Address: 55:44:33:22:11:00\nTpid: 0x8100\nPcp: 1\nDei: 1\nVid: 0x200/512\nEtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     testing::internal::CaptureStdout();
     eth.print(4);
     s = testing::internal::GetCapturedStdout();
 
-    sVal = "    Src Address: 11:22:33:44:55:66\n    Dst Address: 55:44:33:22:11:00\n    Tpid: 0x8100\n    Pcp:  1\n    Dei:  1\n    Vid:  0x200/512\n    EtherType:   0x0800 (ipv4)\n";
+    sVal = "    Dst Address: 11:22:33:44:55:66\n    Src Address: 55:44:33:22:11:00\n    Tpid: 0x8100\n    Pcp: 1\n    Dei: 1\n    Vid: 0x200/512\n    EtherType: 0x0800 (ipv4)\n";
     EXPECT_STREQ(s.c_str(), sVal.c_str());
 
     pkt[MacAddrLen*2 + 1] = 0x01;
