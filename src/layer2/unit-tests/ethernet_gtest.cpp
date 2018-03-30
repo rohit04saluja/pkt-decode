@@ -220,3 +220,59 @@ TEST (EthVlanTagSingle, EthVlanTagSingleValid) {
     pkt[MacAddrLen*2] = 0x82;
     EXPECT_FALSE(EthVlanTagSingle(pkt).isValid());
 }
+
+/*
+ * @brief
+ * Test to check normal working of EthVlanTagDouble
+ */
+TEST (EthVlanTagDouble, EthVlanTagDoubleInit) {
+    uint8_t pkt[EthVlanTagDoubleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x32, 0x00, 0x81, 0x00, 0x21, 0x00, 0x08, 0x00};
+    EthVlanTagDouble eth (pkt);
+
+    EXPECT_EQ(MacAddr(pkt), eth.DstAddr());
+    EXPECT_EQ(MacAddr(pkt+MacAddrLen), eth.SrcAddr());
+    EXPECT_EQ(EthVlanTag(pkt+MacAddrLen*2), eth.Vlan1());
+    EXPECT_EQ(EthVlanTag(pkt+MacAddrLen*2+EthVlanTagLen), eth.Vlan2());
+    EXPECT_EQ(EtherType(pkt+MacAddrLen*2+EthVlanTagLen*2), eth.Et());
+
+    testing::internal::CaptureStdout();
+    eth.print(0);
+    string s = testing::internal::GetCapturedStdout();
+
+    string sVal;
+    sVal += "Dst Address: 11:22:33:44:55:66\n";
+    sVal += "Src Address: 55:44:33:22:11:00\n";
+    sVal += "Outer Vlan:\n";
+    sVal += "  Tpid: 0x8100\n";
+    sVal += "  Pcp: 1\n";
+    sVal += "  Dei: 1\n";
+    sVal += "  Vid: 0x200/512\n";
+    sVal += "Inner Vlan:\n";
+    sVal += "  Tpid: 0x8100\n";
+    sVal += "  Pcp: 1\n";
+    sVal += "  Dei: 0\n";
+    sVal += "  Vid: 0x100/256\n";
+    sVal += "EtherType: 0x0800 (ipv4)\n";
+    EXPECT_STREQ(s.c_str(), sVal.c_str());
+}
+
+/*
+ * @brief
+ * Test to check headers being not equal
+ */
+TEST (EthVlanTagDouble, EthVlanTagDoubleEq) {
+    uint8_t pkt1[EthVlanTagDoubleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x32, 0x00, 0x81, 0x00, 0x21, 0x00, 0x08, 0x00};
+    uint8_t pkt2[EthVlanTagDoubleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x31, 0x00, 0x81, 0x00, 0x21, 0x00, 0x08, 0x00};
+    EXPECT_NE(EthVlanTagSingle(pkt1), EthVlanTagSingle(pkt2));
+}
+
+/*
+ * @brief
+ * TEST to check validity of Double tagged packet
+ */
+TEST (EthVlanTagDouble, EthVlanTagDoubleValid) {
+    uint8_t pkt[EthVlanTagDoubleLen] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x81, 0x00, 0x32, 0x00, 0x81, 0x00, 0x21, 0x00, 0x08, 0x00};
+    EXPECT_TRUE(EthVlanTagDouble(pkt).isValid());
+    pkt[MacAddrLen*2+EthVlanTagLen] = 0x82;
+    EXPECT_FALSE(EthVlanTagDouble(pkt).isValid());
+}
