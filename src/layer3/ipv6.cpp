@@ -97,3 +97,19 @@ bool const operator== (Ipv6Addr const &lhs, Ipv6Addr const &rhs) {
 bool const operator!= (Ipv6Addr const &lhs, Ipv6Addr const &rhs) {
     return !(lhs==rhs);
 }
+
+
+/*
+ * @brief
+ * Default constructor for class
+ * initialize values to 0
+ */
+Ipv6::Ipv6 (void) : Layer3::Layer3() {
+    tc = 0;
+    fl = 0;
+    len = 0;
+    nh = 0;
+    hl = 0;
+    srcip = Ipv6Addr();
+    dstip = Ipv6Addr();
+}
